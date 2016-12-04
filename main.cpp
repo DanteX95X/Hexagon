@@ -1,6 +1,7 @@
 #include <iostream>
 #include "window/window.h"
 #include "utilities/texture_flyweight.h"
+#include "utilities/timer.h"
 
 int main(int argc, char** argv)
 {
@@ -10,8 +11,6 @@ int main(int argc, char** argv)
 	Window window;
 	
 	SDL_Texture* t = TextureFlyweight::Instance().GetTexture("crate.png");
-	if(t == nullptr)
-		std::cout << "Dupa\n";
 	
 	
 	while( !isDone)
@@ -25,6 +24,7 @@ int main(int argc, char** argv)
 			}
 
 		}
+		Timer::Instance().Update();
 		
 		SDL_RenderClear(window.GetRenderer());
 		SDL_RenderCopy(window.GetRenderer(), t, NULL, NULL);
