@@ -1,6 +1,6 @@
 #include <iostream>
 #include "window/window.h"
-#include "utilities/texture_flyweight.h"
+#include "objects/prop.h"
 #include "utilities/timer.h"
 
 int main(int argc, char** argv)
@@ -10,8 +10,8 @@ int main(int argc, char** argv)
 	SDL_Event event;
 	Window window;
 	
-	SDL_Texture* t = TextureFlyweight::Instance().GetTexture("crate.png");
-	
+
+	Prop prop({0,0}, {320,240}, "crate.png");
 	
 	while( !isDone)
 	{
@@ -27,7 +27,7 @@ int main(int argc, char** argv)
 		Timer::Instance().Update();
 		
 		SDL_RenderClear(window.GetRenderer());
-		SDL_RenderCopy(window.GetRenderer(), t, NULL, NULL);
+		window.RenderProp(prop);
 		SDL_RenderPresent(window.GetRenderer());
 	}
 	

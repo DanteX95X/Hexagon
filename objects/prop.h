@@ -3,6 +3,7 @@
 
 #include "object.h"
 #include <string>
+#include <SDL2/SDL.h>
 
 class Prop : public Object
 {
@@ -11,13 +12,13 @@ public:
 	Prop(std::string spritePath);
 	
 	virtual void Update() override;
-	void Render();
 	
+	SDL_Texture* GetTexture();
 private:
 	void LoadTexture(std::string spritePath);
 	
 	SDL_Texture* texture;
 	
-}
+};
 
 #endif //PROP_H
