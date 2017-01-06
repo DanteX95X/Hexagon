@@ -15,23 +15,24 @@ int main(int argc, char** argv)
 
 	Actor actor({0,0}, {400,400}, "crate.png");
 
-	/*int childQuantity, value;
+	int childQuantity, value;
 	std::cin >> childQuantity >> value;
-	Vertex* root = Vertex::BuildTree(childQuantity, value);
+	Vertex* root = Vertex::BuildTree(0, childQuantity, value);
 
 	std::cout << "\n";
 	std::queue<Vertex*> queue;
 	queue.push(root);
 	while(queue.size() > 0)
 	{
-		std::cout << queue.front()->GetValue() << " " << queue.front()->GetChildren().size() << "\n";
+		std::cout <<queue.front()->GetDepth() << " " << queue.front()->GetValue() << " " << queue.front()->GetChildren().size() << "\n";
 		for(Vertex*& vertex : queue.front()->GetChildren())
 			queue.push(vertex);
 
 		queue.pop();
 	}
 
-	delete root;*/
+	delete root;
+	
 	while( !isDone)
 	{
 
