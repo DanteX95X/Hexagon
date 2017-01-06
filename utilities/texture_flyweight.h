@@ -13,16 +13,16 @@ public:
 	TextureFlyweight& operator = (const TextureFlyweight&) = delete;
 	TextureFlyweight& operator = (const TextureFlyweight&&) = delete;
 	~TextureFlyweight();
-	
+
 	static TextureFlyweight& Instance();
-	
+
 	SDL_Texture* GetTexture(std::string spritePath);
-	
+
 	void SetRenderer(SDL_Renderer* newRenderer);
 private:
 	TextureFlyweight();
 	SDL_Texture* AddTexture(std::string spritePath);
-	
+
 	std::unordered_map<std::string, SDL_Texture*> textures;
 	SDL_Renderer* renderer;
 };

@@ -3,13 +3,13 @@
 Object::Object()
 	: position(), size()
 {
-	
+
 }
 
 Object::Object(Vector2 initPosition, Vector2 initSize)
 	: position{initPosition}, size{initSize}
 {
-	
+
 }
 
 Vector2 Object::GetPosition() { return position; }
