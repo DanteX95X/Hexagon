@@ -41,7 +41,7 @@ int main(int argc, char** argv)
 			{
 				isDone = true;
 			}
-			actor.handleEvents(event);
+			actor.HandleEvents(event);
 		}
 
 		Timer::Instance().Update();
