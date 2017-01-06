@@ -14,7 +14,7 @@ int main(int argc, char** argv)
 	
 	Prop prop({0,0}, {240, 240}, "crate.png");
 	
-	int childQuantity, value;
+	/*int childQuantity, value;
 	std::cin >> childQuantity >> value;
 	Vertex* root = Vertex::BuildTree(childQuantity, value);
 	
@@ -30,7 +30,7 @@ int main(int argc, char** argv)
 		queue.pop();
 	}
 	
-	delete root;
+	delete root;*/
 	
 	while( !isDone)
 	{
