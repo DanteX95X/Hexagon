@@ -15,7 +15,7 @@ int main(int argc, char** argv)
 
 	//Field field({0,0}, 40, "crate.png");
 	//Field field2({497*40*0.002,0}, 40, "crate.png");
-	Grid grid(Vector2 (300,200), 32);
+	Grid grid(Vector2 (300,200), 50);
 	grid.init();
 	
 	while( !isDone)

@@ -13,7 +13,6 @@ public:
 	
 
 private:
-	std::vector<Field*> neighbours;
 };
 
 
