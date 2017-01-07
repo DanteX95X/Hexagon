@@ -1,7 +1,9 @@
 #include <iostream>
 #include "window/window.h"
 #include "objects/prop.h"
+#include "objects/field.h"
 #include "utilities/timer.h"
+#include "objects/grid.h"
 
 int main(int argc, char** argv)
 {
@@ -11,7 +13,10 @@ int main(int argc, char** argv)
 	Window window;
 	
 
-	Prop prop({0,0}, {320,240}, "crate.png");
+	//Field field({0,0}, 40, "crate.png");
+	//Field field2({497*40*0.002,0}, 40, "crate.png");
+	Grid grid(Vector2 (300,200), 32);
+	grid.init();
 	
 	while( !isDone)
 	{
@@ -27,7 +32,8 @@ int main(int argc, char** argv)
 		Timer::Instance().Update();
 		
 		SDL_RenderClear(window.GetRenderer());
-		window.RenderProp(prop);
+		grid.render(window);
+
 		SDL_RenderPresent(window.GetRenderer());
 	}
 	
