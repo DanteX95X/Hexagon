@@ -2,16 +2,12 @@
 #define GRID_H
 #include "field.h"
 #include "window/window.h"
+#include <map>
 
 class Grid: public Object
 {
 public:
-	Grid(Vector2 initPosition, double size)
-	:Object(initPosition, Vector2(size*5, size*5)) 
-	{
-		position = initPosition;
-		this->size = size;
-	};
+	Grid(Vector2 initPosition, double size);
 	
 	void init();
 	void render(Window& window);
@@ -20,6 +16,7 @@ public:
 	
 private:
 	std::vector< Field > fields;
+	std::map<std::pair<int, int>, Field> fieldsMap;
 	Vector2 position;
 	double size;
 };

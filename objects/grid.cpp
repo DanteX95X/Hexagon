@@ -14,9 +14,9 @@ void Grid::init()
 			double x =  position.x + size*proportion * 1.5 * static_cast<double>(j);
 			double y  =  position.y + 1.73*size*proportion*static_cast<double>(i) + 1.73*size*proportion*0.5*static_cast<double>(j);
 			
-			Field temporaryField({x,y},{static_cast<double>(j),static_cast<double>(i)},size, "crate.png");
-			fields.push_back(temporaryField);
-			//"i" is a coordination parallel  to OY
+			Field temporaryField({x,y},size, "crate.png");
+			std::pair<int, int> abstractCoordinates(j, i);
+			fieldsMap.insert(std::pair<std::pair<int, int>, Field>(abstractCoordinates, temporaryField));
 		}
 		
 		if(i<0) --left;
@@ -29,12 +29,19 @@ void Grid::init()
 
 void Grid::render(Window& window)
 {
-	for(unsigned int i = 0; i < fields.size(); ++i)
+	for(typename std::map<std::pair<int, int>, Field>::iterator i = fieldsMap.begin(); i != fieldsMap.end(); ++i)
 	{
-		window.RenderProp((fields[i]));
+		window.RenderProp((*i).second);
 	}
 }
 
 void Grid::Update()
 {
 }
+
+Grid::Grid(Vector2 initPosition, double size)
+:Object(initPosition, Vector2(size*5, size*5)) 
+{
+	position = initPosition;
+	this->size = size;
+};
