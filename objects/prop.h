@@ -10,15 +10,19 @@ class Prop : public Object
 public:
 	Prop(Vector2 initPosition, Vector2 initSize, std::string spritePath);
 	Prop(std::string spritePath);
-	
+    Prop(Vector2 initPosition, Vector2 initSize);
+
 	virtual void Update() override;
-	
+
+	Vector2 GetPosition();
+	Vector2 GetSize();
+
+    void SetTexture(SDL_Texture*);
 	SDL_Texture* GetTexture();
 private:
-	void LoadTexture(std::string spritePath);
-	
+
 	SDL_Texture* texture;
-	
+
 };
 
 #endif //PROP_H

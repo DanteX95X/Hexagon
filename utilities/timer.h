@@ -3,6 +3,7 @@
 
 #include <chrono>
 #include <SDL2/SDL.h>
+
 typedef std::chrono::high_resolution_clock Clock;
 
 class Timer
