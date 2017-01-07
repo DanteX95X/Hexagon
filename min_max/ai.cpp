@@ -2,7 +2,7 @@
 
 int AI::AlphaBetaPruning(Vertex* vertex, int depth, int alpha, int beta, bool isMaximizing)
 {
-	if( vertex->GetChildren().size() == 0 )
+	if(depth == 0 || vertex->GetChildren().size() == 0 )
 		return vertex->GetValue();
 	
 	int value;
