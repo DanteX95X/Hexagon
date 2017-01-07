@@ -8,9 +8,7 @@ Vertex::Vertex(int initDepth, int initValue)
 }
 
 Vertex::~Vertex()
-{
-	std::cout << "Destructor called\n";
-	
+{	
 	for(Vertex*& child : children)
 		delete child;
 }
@@ -28,7 +26,7 @@ Vertex* Vertex::BuildTree(int depth, int childQuantity, int value)
 	{
 		int newChildQuantity, newValue;
 		std::cin >> newChildQuantity >> newValue;
-		std::cout << newChildQuantity << " " << newValue << "\n";
+		//std::cout << newChildQuantity << " " << newValue << "\n";
 		vertex->AddChild(BuildTree(depth + 1, newChildQuantity, newValue));
 	}
 	
@@ -38,5 +36,6 @@ Vertex* Vertex::BuildTree(int depth, int childQuantity, int value)
 
 
 int Vertex::GetValue() { return value; }
+void Vertex::SetValue(int value) { this->value = value; }
 std::vector<Vertex*>& Vertex::GetChildren() { return children; }
 int Vertex::GetDepth() { return depth; }

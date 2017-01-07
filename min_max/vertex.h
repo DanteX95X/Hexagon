@@ -2,11 +2,12 @@
 #define VERTEX_H
 
 #include <vector>
+#include <climits>
 
 class Vertex
 {
 public:
-	Vertex(int initDepth, int initValue = 0);
+	Vertex(int initDepth, int initValue = INT_MIN);
 	~Vertex();
 	
 	void AddChild(Vertex* child);
@@ -14,8 +15,10 @@ public:
 	static Vertex* BuildTree(int depth, int childQuantity, int value);
 	
 	int GetValue();
+	void SetValue(int value);
 	std::vector<Vertex*>& GetChildren();
 	int GetDepth();
+	
 private:
 	int value;
 	int depth;

@@ -5,6 +5,7 @@
 #include "objects/actor.h"
 #include "min_max/vertex.h"
 #include <queue>
+#include "min_max/ai.h"
 
 int main(int argc, char** argv)
 {
@@ -15,9 +16,10 @@ int main(int argc, char** argv)
 
 	Actor actor({0,0}, {400,400}, "crate.png");
 
-	int childQuantity, value;
+	/*int childQuantity, value;
 	std::cin >> childQuantity >> value;
 	Vertex* root = Vertex::BuildTree(0, childQuantity, value);
+	AI::AlphaBetaPruning(root, 100, INT_MIN, INT_MAX, true);
 
 	std::cout << "\n";
 	std::queue<Vertex*> queue;
@@ -31,7 +33,7 @@ int main(int argc, char** argv)
 		queue.pop();
 	}
 
-	delete root;
+	delete root;*/
 	
 	while( !isDone)
 	{
