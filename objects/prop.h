@@ -20,7 +20,6 @@ public:
     void SetTexture(SDL_Texture*);
 	SDL_Texture* GetTexture();
 private:
-	void LoadTexture(std::string spritePath);
 
 	SDL_Texture* texture;
 
