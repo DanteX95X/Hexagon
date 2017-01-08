@@ -2,7 +2,7 @@
 #include "../utilities/hex.h"
 
 Game::Game(Vector2 initPosition, double initSize)
-	: Actor(initPosition, Vector2(initSize, initSize)), position{initPosition}, size{initSize}, inputPositions()
+	: Actor(initPosition, Vector2(initSize, initSize)), position{initPosition}, size{initSize}, inputPositions(), currentPlayerID{0}
 {
 	Init();
 };
@@ -48,6 +48,20 @@ void Game::Init()
 		
 	}
 
+
+	SetUpNeighbours();
+	
+	for(auto& ufo : neighbourhood)
+	{
+		std::cout << ufo.first;
+		std::cout << "\t";
+		for(Vector2 porno : ufo.second)
+		{
+			std::cout << porno;
+			std::cout << " ";
+		}
+		std::cout << "\n";
+	}
 }
 
 
@@ -76,7 +90,7 @@ void Game::ProcessInput(Vector2 position)
 	inputPositions.push_back(position);
 	Field* source = fieldsMap[inputPositions.front()];
 	
-	if( source->GetOwner() == Owner::NONE)
+	if( source->GetOwner() == Owner::NONE || static_cast<int>(source->GetOwner()) != currentPlayerID )
 	{
 		std::cout << "Empty!\n";
 		inputPositions.clear();
@@ -98,16 +112,31 @@ void Game::ProcessInput(Vector2 position)
 		{
 			destination->SetOwner( source->GetOwner() );
 			inputPositions.clear();
+			currentPlayerID = (currentPlayerID + 1) % 2;
 		}
 		else if( distance == 2 )
 		{
 			destination->SetOwner( source->GetOwner());
 			source->SetOwner(Owner::NONE);
 			inputPositions.clear();
+			currentPlayerID = (currentPlayerID + 1) % 2;
 		}
 		else
 		{
 			inputPositions.erase(inputPositions.begin());
+		}
+	}
+}
+
+void Game::SetUpNeighbours()
+{
+	for( auto& field : fieldsMap )
+	{
+		for( Vector2 displacement : Hex::displacements )
+		{
+			auto neighbour = fieldsMap.find(field.second->GetAxial() + displacement);
+			if(neighbour != fieldsMap.end())
+				neighbourhood[field.second->GetAxial()].push_back(field.second->GetAxial() + displacement);
 		}
 	}
 }

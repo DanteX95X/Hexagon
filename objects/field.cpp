@@ -50,3 +50,5 @@ void Field::Render(SDL_Renderer* renderer)
 
 Owner Field::GetOwner() { return owner; }
 void Field::SetOwner(Owner newOwner) { owner = newOwner; }
+
+Vector2 Field::GetAxial() { return axial; }

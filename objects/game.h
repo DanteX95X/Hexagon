@@ -14,6 +14,8 @@ public:
 	~Game();
 	
 	void Init();
+	void SetUpNeighbours();
+	
 	virtual void Render(SDL_Renderer* renderer) override;
 	
 	virtual void Update() override;
@@ -26,6 +28,8 @@ private:
 	double size;
 	
 	std::vector<Vector2> inputPositions;
+	int currentPlayerID;
+	std::map<Vector2, std::vector<Vector2>> neighbourhood;
 };
 
 #endif //GAME_H

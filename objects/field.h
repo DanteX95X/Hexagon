@@ -25,6 +25,8 @@ public:
 	Owner GetOwner();
 	void SetOwner(Owner newOwner);
 	
+	Vector2 GetAxial();
+	
 private:
 	Vector2 axial;
 	Owner owner;
