@@ -97,13 +97,17 @@ void Game::ProcessInput(Vector2 position)
 		if( distance == 1 )
 		{
 			destination->SetOwner( source->GetOwner() );
+			inputPositions.clear();
 		}
 		else if( distance == 2 )
 		{
 			destination->SetOwner( source->GetOwner());
 			source->SetOwner(Owner::NONE);
+			inputPositions.clear();
 		}
-		
-		inputPositions.clear();
+		else
+		{
+			inputPositions.erase(inputPositions.begin());
+		}
 	}
 }
