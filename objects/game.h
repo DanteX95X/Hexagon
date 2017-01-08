@@ -1,5 +1,5 @@
-#ifndef GRID_H
-#define GRID_H
+#ifndef GAME_H
+#define GAME_H
 #include "field.h"
 #include "../window/window.h"
 #include <map>
@@ -7,11 +7,11 @@
 
 class Field;
 
-class Grid: public Actor
+class Game: public Actor
 {
 public:
-	Grid(Vector2 initPosition, double size);
-	~Grid();
+	Game(Vector2 initPosition, double size);
+	~Game();
 	
 	void Init();
 	virtual void Render(SDL_Renderer* renderer) override;
@@ -19,11 +19,10 @@ public:
 	virtual void Update() override;
 	virtual void HandleEvents(SDL_Event& event)  override;
 	
-	void Dupa() { std::cout << "Dupa\n"; }
 private:
 	std::map<Vector2, Field*> fieldsMap;
 	Vector2 position;
 	double size;
 };
 
-#endif
+#endif //GAME_H

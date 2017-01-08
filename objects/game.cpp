@@ -1,12 +1,12 @@
-#include "grid.h"
+#include "game.h"
 
-Grid::Grid(Vector2 initPosition, double initSize)
+Game::Game(Vector2 initPosition, double initSize)
 	: Actor(initPosition, Vector2(initSize, initSize)), position{initPosition}, size{initSize} 
 {
 	Init();
 };
 
-Grid::~Grid()
+Game::~Game()
 {
 	for( auto& field : fieldsMap )
 	{
@@ -14,7 +14,7 @@ Grid::~Grid()
 	}
 }
 
-void Grid::Init()
+void Game::Init()
 {
 
 	int left = 0;
@@ -50,7 +50,7 @@ void Grid::Init()
 }
 
 
-void Grid::Render(SDL_Renderer* renderer)
+void Game::Render(SDL_Renderer* renderer)
 {	
 	for( auto& field : fieldsMap )
 	{
@@ -58,11 +58,11 @@ void Grid::Render(SDL_Renderer* renderer)
 	}
 }
 
-void Grid::Update()
+void Game::Update()
 {
 }
 
-void Grid::HandleEvents(SDL_Event& event)
+void Game::HandleEvents(SDL_Event& event)
 {
 	for( auto& field : fieldsMap )
 	{

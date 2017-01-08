@@ -4,7 +4,7 @@
 #include "objects/field.h"
 #include "utilities/timer.h"
 
-#include "objects/grid.h"
+#include "objects/game.h"
 
 #include "objects/actor.h"
 #include "min_max/vertex.h"
@@ -18,7 +18,7 @@ int main(int argc, char** argv)
 	SDL_Event event;
 	Window window;
 
-	Grid grid(Vector2 (300,200), 50);
+	Game game(Vector2 (300,200), 50);
 
 	/*int childQuantity, value;
 	std::cin >> childQuantity >> value;
@@ -49,13 +49,13 @@ int main(int argc, char** argv)
 			{
 				isDone = true;
 			}
-			grid.HandleEvents(event);
+			game.HandleEvents(event);
 		}
 
 		Timer::Instance().Update();
 
 		SDL_RenderClear(window.GetRenderer());
-		grid.Render(window.GetRenderer());
+		game.Render(window.GetRenderer());
 
 		SDL_RenderPresent(window.GetRenderer());
 	}
