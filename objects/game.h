@@ -4,6 +4,7 @@
 #include "../window/window.h"
 #include <map>
 #include <iostream>
+#include <array>
 
 class Field;
 enum class Owner;
@@ -23,8 +24,11 @@ public:
 	virtual void HandleEvents(SDL_Event& event)  override;
 	
 	void ProcessInput(Vector2 position);
-	void TakePositionOver(Vector2 position, Owner owner);
+
 private:
+	void TakePositionOver(Vector2 position, Owner owner);
+
+
 	std::map<Vector2, Field*> fieldsMap;
 	Vector2 position;
 	double size;
@@ -32,6 +36,7 @@ private:
 	std::vector<Vector2> inputPositions;
 	int currentPlayerID;
 	std::map<Vector2, std::vector<Vector2>> neighbourhood;
+	std::array<int, 2> score;
 };
 
 #endif //GAME_H

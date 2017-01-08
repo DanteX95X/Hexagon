@@ -2,7 +2,7 @@
 #include "../utilities/hex.h"
 
 Game::Game(Vector2 initPosition, double initSize)
-	: Actor(initPosition, Vector2(initSize, initSize)), position{initPosition}, size{initSize}, inputPositions(), currentPlayerID{0}
+	: Actor(initPosition, Vector2(initSize, initSize)), position{initPosition}, size{initSize}, inputPositions(), currentPlayerID{0}, score({3,3})
 {
 	Init();
 };
@@ -111,17 +111,23 @@ void Game::ProcessInput(Vector2 position)
 		if( distance == 1 )
 		{
 			TakePositionOver(destination->GetAxial(), source->GetOwner());
-			//destination->SetOwner( source->GetOwner() );
+			++score[static_cast<int>(source->GetOwner())];
+			
 			inputPositions.clear();
 			currentPlayerID = (currentPlayerID + 1) % 2;
+			
+			std::cout << score[0] << " " << score[1] << "\n";
 		}
 		else if( distance == 2 )
 		{
 			TakePositionOver(destination->GetAxial(), source->GetOwner());
-			//destination->SetOwner( source->GetOwner());
+			
 			source->SetOwner(Owner::NONE);
+			
 			inputPositions.clear();
 			currentPlayerID = (currentPlayerID + 1) % 2;
+			
+			std::cout << score[0] << " " << score[1] << "\n";
 		}
 		else
 		{
@@ -151,7 +157,11 @@ void Game::TakePositionOver(Vector2 position, Owner owner)
 	for( Vector2 neighbourPosition : neighbourhood[position] )
 	{
 		 Field* neighbour = fieldsMap[neighbourPosition];
-		 if( neighbour->GetOwner() != Owner::NONE )
-			 neighbour->SetOwner(owner);
+		 if( neighbour->GetOwner() != Owner::NONE && neighbour->GetOwner() != owner)
+		 {
+			 ++score[static_cast<int>(owner)];
+			 --score[static_cast<int>(neighbour->GetOwner())];
+			neighbour->SetOwner(owner);
+		 }
 	}
 }
