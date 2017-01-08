@@ -37,7 +37,7 @@ void Grid::Init()
 			double y  =  position.y + 1.73*size*proportion*static_cast<double>(i) + 1.73*size*proportion*0.5*static_cast<double>(j);
 			
 			Vector2 axial(static_cast<double>(j), static_cast<double>(i));
-			Field* temporaryField = new Field(axial, {x,y},size, "hex.png", fieldOwner);
+			Field* temporaryField = new Field(this, axial, {x,y},size, "hex.png", fieldOwner);
 			std::pair<int, int> abstractCoordinates(j, i);
 			fieldsMap[axial] = temporaryField;
 		}

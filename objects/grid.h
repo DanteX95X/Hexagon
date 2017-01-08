@@ -3,6 +3,9 @@
 #include "field.h"
 #include "../window/window.h"
 #include <map>
+#include <iostream>
+
+class Field;
 
 class Grid: public Actor
 {
@@ -16,6 +19,7 @@ public:
 	virtual void Update() override;
 	virtual void HandleEvents(SDL_Event& event)  override;
 	
+	void Dupa() { std::cout << "Dupa\n"; }
 private:
 	std::map<Vector2, Field*> fieldsMap;
 	Vector2 position;

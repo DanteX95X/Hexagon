@@ -2,11 +2,12 @@
 #include <iostream>
 #include "../utilities/texture_flyweight.h"
 
-Field::Field(Vector2 initAxial, Vector2 position, float size, std::string texturePath, Owner initOwner)
+Field::Field(Grid* initGrid, Vector2 initAxial, Vector2 position, float size, std::string texturePath, Owner initOwner)
 	:Actor(Vector2 (position.x - size*0.5, position.y - size*0.5), 
 	Vector2 (size, size), texturePath), 
 	axial{initAxial}, 
-	owner{initOwner} 
+	owner{initOwner},
+	grid{initGrid}
 {
 	playerPawn = TextureFlyweight::Instance().GetTexture("pawn_blue.png");
 	opponentPawn = TextureFlyweight::Instance().GetTexture("pawn_red.png");
@@ -44,4 +45,9 @@ void Field::Render(SDL_Renderer* renderer)
 		SDL_RenderCopy(renderer, playerPawn, nullptr, &destination);
 	else if( owner == Owner::OPPONENT )
 		SDL_RenderCopy(renderer, opponentPawn, nullptr, &destination);
+}
+
+void Field::ChangeOwner(Owner newOwner)
+{
+	owner = newOwner;
 }
