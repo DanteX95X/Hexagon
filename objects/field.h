@@ -22,7 +22,8 @@ public:
 	void Update() override;
 	void Render(SDL_Renderer* renderer) override;
 	
-	void ChangeOwner(Owner newOwner);
+	Owner GetOwner();
+	void SetOwner(Owner newOwner);
 	
 private:
 	Vector2 axial;

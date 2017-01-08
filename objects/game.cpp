@@ -1,7 +1,8 @@
 #include "game.h"
+#include "../utilities/hex.h"
 
 Game::Game(Vector2 initPosition, double initSize)
-	: Actor(initPosition, Vector2(initSize, initSize)), position{initPosition}, size{initSize} 
+	: Actor(initPosition, Vector2(initSize, initSize)), position{initPosition}, size{initSize}, inputPositions()
 {
 	Init();
 };
@@ -67,5 +68,42 @@ void Game::HandleEvents(SDL_Event& event)
 	for( auto& field : fieldsMap )
 	{
 		field.second->HandleEvents(event);
+	}
+}
+
+void Game::ProcessInput(Vector2 position)
+{
+	inputPositions.push_back(position);
+	Field* source = fieldsMap[inputPositions.front()];
+	
+	if( source->GetOwner() == Owner::NONE)
+	{
+		std::cout << "Empty!\n";
+		inputPositions.clear();
+		return;
+	}
+	
+	if(inputPositions.size() == 2)
+	{
+		unsigned int distance = Hex::Distance(inputPositions.front(), inputPositions.back());
+		Field* destination = fieldsMap[inputPositions.back()];
+		
+		if(destination->GetOwner() != Owner::NONE)
+		{
+			inputPositions.erase(inputPositions.begin());
+			return;
+		}
+		
+		if( distance == 1 )
+		{
+			destination->SetOwner( source->GetOwner() );
+		}
+		else if( distance == 2 )
+		{
+			destination->SetOwner( source->GetOwner());
+			source->SetOwner(Owner::NONE);
+		}
+		
+		inputPositions.clear();
 	}
 }

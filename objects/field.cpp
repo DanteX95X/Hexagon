@@ -27,7 +27,8 @@ void Field::HandleEvents(SDL_Event& event)
             std::cout << axial;
 			std::cout <<  " ";
 			std::cout  << static_cast<int> (owner) << "\n";
-			owner = Owner::PLAYER;
+			//owner = Owner::PLAYER;
+			game->ProcessInput(axial);
 		}
     }
 }
@@ -47,7 +48,5 @@ void Field::Render(SDL_Renderer* renderer)
 		SDL_RenderCopy(renderer, opponentPawn, nullptr, &destination);
 }
 
-void Field::ChangeOwner(Owner newOwner)
-{
-	owner = newOwner;
-}
+Owner Field::GetOwner() { return owner; }
+void Field::SetOwner(Owner newOwner) { owner = newOwner; }

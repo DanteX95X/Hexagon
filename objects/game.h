@@ -19,10 +19,13 @@ public:
 	virtual void Update() override;
 	virtual void HandleEvents(SDL_Event& event)  override;
 	
+	void ProcessInput(Vector2 position);
 private:
 	std::map<Vector2, Field*> fieldsMap;
 	Vector2 position;
 	double size;
+	
+	std::vector<Vector2> inputPositions;
 };
 
 #endif //GAME_H
