@@ -10,6 +10,9 @@ void Grid::init()
 	{
 		for(int j = left; j < right; ++j)
 		{
+			if( ( i==-1 && j == 0 ) || ( i == 0 && j == 1 ) || ( i == 1 && j == -1 ) )
+				continue;
+			
 			const double proportion = 0.485;
 			double x =  position.x + size*proportion * 1.5 * static_cast<double>(j);
 			double y  =  position.y + 1.73*size*proportion*static_cast<double>(i) + 1.73*size*proportion*0.5*static_cast<double>(j);
