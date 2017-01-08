@@ -54,12 +54,6 @@ void Window::SetUpWindow(unsigned int width, unsigned int height, std::string ti
 	windowSurface = SDL_GetWindowSurface(window);
 }
 
-void Window::RenderProp(Prop& prop)
-{
-	SDL_Rect destination = { static_cast<int>(prop.GetPosition().x), static_cast<int>(prop.GetPosition().y), static_cast<int>(prop.GetSize().x), static_cast<int>(prop.GetSize().y) };
-	SDL_RenderCopy(renderer, prop.GetTexture(), nullptr, &destination);
-}
-
 
 SDL_Renderer* Window::GetRenderer() { return renderer; }
 unsigned int Window::GetWidth() { return width; }

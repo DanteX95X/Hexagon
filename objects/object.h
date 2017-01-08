@@ -16,7 +16,8 @@ public:
 	
 	void SetPosition(Vector2 newPosition);
 	void SetSize(Vector2 newSize);
-private:
+	
+protected:
 	Vector2 position;
 	Vector2 size;
 };

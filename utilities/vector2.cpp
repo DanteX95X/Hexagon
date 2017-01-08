@@ -70,6 +70,6 @@ bool operator != (const Vector2& first, const Vector2& second)
 
 std::ostream& operator << (std::ostream& os, const Vector2& vector)
 {
-	os << vector.x << " " << vector.y << "\n";
+	os << "( " << vector.x << ", " << vector.y << " )";
 	return os;
 }

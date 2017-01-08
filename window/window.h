@@ -14,8 +14,6 @@ public:
 
 	void SetUpWindow(unsigned int width, unsigned int height, std::string title, Uint32 flags = SDL_WINDOW_SHOWN);
 
-	void RenderProp(Prop& prop);
-
 	SDL_Renderer* GetRenderer();
 
 	unsigned int GetWidth();

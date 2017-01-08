@@ -18,7 +18,7 @@ void Grid::init()
 			double y  =  position.y + 1.73*size*proportion*static_cast<double>(i) + 1.73*size*proportion*0.5*static_cast<double>(j);
 			
 			Vector2 axial(static_cast<double>(j), static_cast<double>(i));
-			Field temporaryField(axial, {x,y},size, "crate.png");
+			Field temporaryField(axial, {x,y},size, "crate.png", Owner::PLAYER);
 			std::pair<int, int> abstractCoordinates(j, i);
 			fieldsMap.insert(std::pair<std::pair<int, int>, Field>(abstractCoordinates, temporaryField));
 		}
@@ -35,7 +35,7 @@ void Grid::render(Window& window)
 {
 	for(typename std::map<std::pair<int, int>, Field>::iterator i = fieldsMap.begin(); i != fieldsMap.end(); ++i)
 	{
-		window.RenderProp((*i).second);
+		i->second.Render(window.GetRenderer());
 	}
 }
 
