@@ -19,7 +19,6 @@ int main(int argc, char** argv)
 	Window window;
 
 	Grid grid(Vector2 (300,200), 50);
-	grid.init();
 	//Actor actor({0,0}, {400,400}, "crate.png");
 
 	/*int childQuantity, value;
@@ -54,14 +53,14 @@ int main(int argc, char** argv)
 			//actor.HandleEvents(event);
 			for(auto field : grid.GetFields())
 			{
-				field.second.HandleEvents(event);
+				field.second->HandleEvents(event);
 			}
 		}
 
 		Timer::Instance().Update();
 
 		SDL_RenderClear(window.GetRenderer());
-		grid.render(window);
+		grid.Render(window);
 
 		//window.RenderProp(actor);
 

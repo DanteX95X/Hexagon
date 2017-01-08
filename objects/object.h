@@ -8,6 +8,7 @@ class Object
 public:
 	Object();
 	Object(Vector2 initPosition, Vector2 initSize);
+	virtual ~Object();
 	
 	virtual void Update() = 0;
 	

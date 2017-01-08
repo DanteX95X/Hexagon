@@ -20,8 +20,8 @@ public:
 
     void SetTexture(SDL_Texture*);
 	SDL_Texture* GetTexture();
-private:
-
+	
+protected:
 	SDL_Texture* texture;
 
 };

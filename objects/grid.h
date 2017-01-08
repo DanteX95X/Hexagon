@@ -3,21 +3,24 @@
 #include "field.h"
 #include "../window/window.h"
 #include <map>
+#include <unordered_map>
+#include <boost/functional/hash.hpp>
 
 class Grid: public Object
 {
 public:
 	Grid(Vector2 initPosition, double size);
+	~Grid();
 	
-	void init();
-	void render(Window& window);
+	void Init();
+	void Render(Window& window);
 	
 	virtual void Update() override;
 	
-	std::map<std::pair<int, int>, Field>& GetFields();
+	std::map<std::pair<int, int>, Field*>& GetFields();
+	
 private:
-	//std::vector< Field > fields;
-	std::map<std::pair<int, int>, Field> fieldsMap;
+	std::map<std::pair<int, int>, Field*> fieldsMap;
 	Vector2 position;
 	double size;
 };

@@ -8,9 +8,12 @@ Actor::Actor(Vector2 initPosition, Vector2 initSize, std::string spritePath)
 {
 }
 
+Actor::Actor(Vector2 initPosition, Vector2 initSize)
+	: Prop(initPosition, initSize)
+{
+}
+
 bool Actor::IsMouseInside(Vector2 clickPosition, Vector2 midPosition, double side)
 {
-    if( pow((clickPosition.x-midPosition.x),2) + pow((clickPosition.y - midPosition.y),2) < pow(side/2,2 ))
-		return true;
-    return false;
+    return ( pow((clickPosition.x-midPosition.x),2) + pow((clickPosition.y - midPosition.y),2) < pow(side/2 - side/10,2 ) );
 }

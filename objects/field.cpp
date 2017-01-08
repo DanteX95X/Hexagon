@@ -8,6 +8,7 @@ Field::Field(Vector2 initAxial, Vector2 position, float size, std::string textur
 	axial{initAxial}, 
 	owner{initOwner} 
 {
+	std::cout << "constructed\n";
 	playerPawn = TextureFlyweight::Instance().GetTexture("pawn_blue.png");
 	opponentPawn = TextureFlyweight::Instance().GetTexture("pawn_red.png");
 }
@@ -19,13 +20,14 @@ void Field::HandleEvents(SDL_Event& event)
     {
         SDL_GetMouseState(&x, &y);
 
-        Vector2 clickPosition = Vector2((double)x,(double)y);
+        Vector2 clickPosition = Vector2(static_cast<double>(x),static_cast<double>(y));
         Vector2 midPosition = Vector2(Prop::GetPosition().x+(Prop::GetSize().x/2),Prop::GetPosition().y+(Prop::GetSize().y/2));
         if( IsMouseInside(clickPosition, midPosition ,Prop::GetSize().x) )
 		{
             std::cout << axial;
 			std::cout <<  " ";
 			std::cout  << static_cast<int> (owner) << "\n";
+			owner = Owner::PLAYER;
 		}
     }
 }
