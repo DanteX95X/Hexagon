@@ -19,7 +19,6 @@ int main(int argc, char** argv)
 	Window window;
 
 	Grid grid(Vector2 (300,200), 50);
-	//Actor actor({0,0}, {400,400}, "crate.png");
 
 	/*int childQuantity, value;
 	std::cin >> childQuantity >> value;
@@ -50,19 +49,13 @@ int main(int argc, char** argv)
 			{
 				isDone = true;
 			}
-			//actor.HandleEvents(event);
-			for(auto field : grid.GetFields())
-			{
-				field.second->HandleEvents(event);
-			}
+			grid.HandleEvents(event);
 		}
 
 		Timer::Instance().Update();
 
 		SDL_RenderClear(window.GetRenderer());
-		grid.Render(window);
-
-		//window.RenderProp(actor);
+		grid.Render(window.GetRenderer());
 
 		SDL_RenderPresent(window.GetRenderer());
 	}

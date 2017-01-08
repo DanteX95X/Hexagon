@@ -3,24 +3,21 @@
 #include "field.h"
 #include "../window/window.h"
 #include <map>
-#include <unordered_map>
-#include <boost/functional/hash.hpp>
 
-class Grid: public Object
+class Grid: public Actor
 {
 public:
 	Grid(Vector2 initPosition, double size);
 	~Grid();
 	
 	void Init();
-	void Render(Window& window);
+	virtual void Render(SDL_Renderer* renderer) override;
 	
 	virtual void Update() override;
-	
-	std::map<std::pair<int, int>, Field*>& GetFields();
+	virtual void HandleEvents(SDL_Event& event)  override;
 	
 private:
-	std::map<std::pair<int, int>, Field*> fieldsMap;
+	std::map<Vector2, Field*> fieldsMap;
 	Vector2 position;
 	double size;
 };

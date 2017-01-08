@@ -1,7 +1,7 @@
 #include "grid.h"
 
 Grid::Grid(Vector2 initPosition, double initSize)
-	: Object(initPosition, Vector2(initSize, initSize)), position{initPosition}, size{initSize} 
+	: Actor(initPosition, Vector2(initSize, initSize)), position{initPosition}, size{initSize} 
 {
 	Init();
 };
@@ -37,10 +37,9 @@ void Grid::Init()
 			double y  =  position.y + 1.73*size*proportion*static_cast<double>(i) + 1.73*size*proportion*0.5*static_cast<double>(j);
 			
 			Vector2 axial(static_cast<double>(j), static_cast<double>(i));
-			Field* temporaryField = new Field(axial, {x,y},size, "crate.png", fieldOwner);
+			Field* temporaryField = new Field(axial, {x,y},size, "hex.png", fieldOwner);
 			std::pair<int, int> abstractCoordinates(j, i);
-			//fieldsMap[abstractCoordinates] = temporaryField;
-			fieldsMap.insert(std::pair<std::pair<int, int>, Field*>(abstractCoordinates, temporaryField));
+			fieldsMap[axial] = temporaryField;
 		}
 		
 		if(i<0) --left;
@@ -51,16 +50,11 @@ void Grid::Init()
 }
 
 
-void Grid::Render(Window& window)
-{
-	/*for(typename std::map<std::pair<int, int>, Field>::iterator i = fieldsMap.begin(); i != fieldsMap.end(); ++i)
+void Grid::Render(SDL_Renderer* renderer)
+{	
+	for( auto& field : fieldsMap )
 	{
-		i->second.Render(window.GetRenderer());
-	}*/
-	
-	for(auto& field : fieldsMap)
-	{
-		field.second->Render(window.GetRenderer());
+		field.second->Render(renderer);
 	}
 }
 
@@ -68,5 +62,10 @@ void Grid::Update()
 {
 }
 
-
-std::map<std::pair<int, int>, Field*>& Grid::GetFields() { return fieldsMap; }
+void Grid::HandleEvents(SDL_Event& event)
+{
+	for( auto& field : fieldsMap )
+	{
+		field.second->HandleEvents(event);
+	}
+}

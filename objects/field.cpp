@@ -8,7 +8,6 @@ Field::Field(Vector2 initAxial, Vector2 position, float size, std::string textur
 	axial{initAxial}, 
 	owner{initOwner} 
 {
-	std::cout << "constructed\n";
 	playerPawn = TextureFlyweight::Instance().GetTexture("pawn_blue.png");
 	opponentPawn = TextureFlyweight::Instance().GetTexture("pawn_red.png");
 }
