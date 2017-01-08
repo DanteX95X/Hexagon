@@ -20,7 +20,7 @@ int main(int argc, char** argv)
 
 	Grid grid(Vector2 (300,200), 50);
 	grid.init();
-	Actor actor({0,0}, {400,400}, "crate.png");
+	//Actor actor({0,0}, {400,400}, "crate.png");
 
 	/*int childQuantity, value;
 	std::cin >> childQuantity >> value;
@@ -51,7 +51,7 @@ int main(int argc, char** argv)
 			{
 				isDone = true;
 			}
-			actor.HandleEvents(event);
+			//actor.HandleEvents(event);
 		}
 
 		Timer::Instance().Update();

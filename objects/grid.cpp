@@ -40,7 +40,7 @@ void Grid::Update()
 }
 
 Grid::Grid(Vector2 initPosition, double size)
-:Object(initPosition, Vector2(size*5, size*5)) 
+:Object(initPosition, Vector2(size*5, size*5))
 {
 	position = initPosition;
 	this->size = size;

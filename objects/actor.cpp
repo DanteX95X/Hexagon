@@ -4,9 +4,9 @@
 #include "../utilities/texture_flyweight.h"
 
 Actor::Actor(Vector2 initPosition, Vector2 initSize, std::string spritePath)
-	: Prop(initPosition, initSize)
+	: Prop(initPosition, initSize, spritePath)
 {
-    SetTexture(TextureFlyweight::Instance().GetTexture(spritePath));
+    //SetTexture(TextureFlyweight::Instance().GetTexture(spritePath));
 }
 
 

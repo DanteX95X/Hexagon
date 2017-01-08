@@ -1,7 +1,7 @@
 #ifndef GRID_H
 #define GRID_H
 #include "field.h"
-#include "window/window.h"
+#include "../window/window.h"
 #include <map>
 
 class Grid: public Object
