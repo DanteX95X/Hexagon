@@ -110,13 +110,15 @@ void Game::ProcessInput(Vector2 position)
 		
 		if( distance == 1 )
 		{
-			destination->SetOwner( source->GetOwner() );
+			TakePositionOver(destination->GetAxial(), source->GetOwner());
+			//destination->SetOwner( source->GetOwner() );
 			inputPositions.clear();
 			currentPlayerID = (currentPlayerID + 1) % 2;
 		}
 		else if( distance == 2 )
 		{
-			destination->SetOwner( source->GetOwner());
+			TakePositionOver(destination->GetAxial(), source->GetOwner());
+			//destination->SetOwner( source->GetOwner());
 			source->SetOwner(Owner::NONE);
 			inputPositions.clear();
 			currentPlayerID = (currentPlayerID + 1) % 2;
@@ -138,5 +140,18 @@ void Game::SetUpNeighbours()
 			if(neighbour != fieldsMap.end())
 				neighbourhood[field.second->GetAxial()].push_back(field.second->GetAxial() + displacement);
 		}
+	}
+}
+
+void Game::TakePositionOver(Vector2 position, Owner owner)
+{
+	Field* field = fieldsMap[position];
+	field->SetOwner(owner);
+	
+	for( Vector2 neighbourPosition : neighbourhood[position] )
+	{
+		 Field* neighbour = fieldsMap[neighbourPosition];
+		 if( neighbour->GetOwner() != Owner::NONE )
+			 neighbour->SetOwner(owner);
 	}
 }

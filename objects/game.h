@@ -6,6 +6,7 @@
 #include <iostream>
 
 class Field;
+enum class Owner;
 
 class Game: public Actor
 {
@@ -22,6 +23,7 @@ public:
 	virtual void HandleEvents(SDL_Event& event)  override;
 	
 	void ProcessInput(Vector2 position);
+	void TakePositionOver(Vector2 position, Owner owner);
 private:
 	std::map<Vector2, Field*> fieldsMap;
 	Vector2 position;
