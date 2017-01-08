@@ -52,6 +52,10 @@ int main(int argc, char** argv)
 				isDone = true;
 			}
 			//actor.HandleEvents(event);
+			for(auto field : grid.GetFields())
+			{
+				field.second.HandleEvents(event);
+			}
 		}
 
 		Timer::Instance().Update();

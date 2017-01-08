@@ -19,9 +19,6 @@ Prop::Prop(Vector2 initPosition, Vector2 initSize)
 Vector2 Prop::GetPosition() { return Object::GetPosition(); }
 Vector2 Prop::GetSize() { return Object::GetSize(); }
 
-void Prop::Update()
-{
-}
 
 void Prop::SetTexture(SDL_Texture* texture)
 { this->texture = texture; }

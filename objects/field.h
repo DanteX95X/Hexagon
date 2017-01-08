@@ -1,18 +1,18 @@
 #ifndef FIELD_H
 #define FIELD_H
 #include <vector>
-#include "prop.h"
+#include "actor.h"
 
-class Field : public Prop
+class Field : public Actor
 {
 public:
-	Field(Vector2 position, float size, std::string texturePath)
-	:Prop(Vector2 (position.x - size*0.5, position.y - size*0.5), Vector2 (size, size), texturePath)
-	{
-	}
+	Field(Vector2 initAxial, Vector2 position, float size, std::string texturePath);
 	
-
+	void HandleEvents(SDL_Event& event) override;
+	void Update() override;
+	
 private:
+	Vector2 axial;
 };
 
 

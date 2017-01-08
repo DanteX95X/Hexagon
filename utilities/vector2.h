@@ -1,6 +1,7 @@
 #ifndef VECTOR2_H
 #define VECTOR2_H
 
+#include <iostream>
 
 struct Vector2
 {
@@ -20,6 +21,8 @@ public:
 
 	friend bool operator == (const Vector2& first, const Vector2& second);
 	friend bool operator != (const Vector2& first, const Vector2& second);
+	
+	friend std::ostream& operator << (std::ostream& os, const Vector2& vector);
 
 	double x;
 	double y;

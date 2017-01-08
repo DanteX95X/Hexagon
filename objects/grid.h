@@ -14,8 +14,9 @@ public:
 	
 	virtual void Update() override;
 	
+	std::map<std::pair<int, int>, Field>& GetFields();
 private:
-	std::vector< Field > fields;
+	//std::vector< Field > fields;
 	std::map<std::pair<int, int>, Field> fieldsMap;
 	Vector2 position;
 	double size;

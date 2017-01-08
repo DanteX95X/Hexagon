@@ -67,3 +67,9 @@ bool operator != (const Vector2& first, const Vector2& second)
 {
 	return !(first == second);
 }
+
+std::ostream& operator << (std::ostream& os, const Vector2& vector)
+{
+	os << vector.x << " " << vector.y << "\n";
+	return os;
+}

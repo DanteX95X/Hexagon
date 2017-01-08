@@ -10,11 +10,12 @@ void Grid::init()
 	{
 		for(int j = left; j < right; ++j)
 		{
-			double proportion = 0.485;
+			const double proportion = 0.485;
 			double x =  position.x + size*proportion * 1.5 * static_cast<double>(j);
 			double y  =  position.y + 1.73*size*proportion*static_cast<double>(i) + 1.73*size*proportion*0.5*static_cast<double>(j);
 			
-			Field temporaryField({x,y},size, "crate.png");
+			Vector2 axial(static_cast<double>(j), static_cast<double>(i));
+			Field temporaryField(axial, {x,y},size, "crate.png");
 			std::pair<int, int> abstractCoordinates(j, i);
 			fieldsMap.insert(std::pair<std::pair<int, int>, Field>(abstractCoordinates, temporaryField));
 		}
@@ -45,3 +46,6 @@ Grid::Grid(Vector2 initPosition, double size)
 	position = initPosition;
 	this->size = size;
 };
+
+
+std::map<std::pair<int, int>, Field>& Grid::GetFields() { return fieldsMap; }
