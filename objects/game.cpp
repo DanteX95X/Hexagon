@@ -110,29 +110,30 @@ void Game::ProcessInput(Vector2 position)
 		
 		if( distance == 1 )
 		{
-			TakePositionOver(destination->GetAxial(), source->GetOwner());
 			++score[static_cast<int>(source->GetOwner())];
+			TakePositionOver(destination->GetAxial(), source->GetOwner());
 			
-			inputPositions.clear();
+			/*inputPositions.clear();
 			currentPlayerID = (currentPlayerID + 1) % 2;
 			
-			std::cout << score[0] << " " << score[1] << "\n";
+			std::cout << score[0] << " " << score[1] << "\n";*/
 		}
 		else if( distance == 2 )
 		{
 			TakePositionOver(destination->GetAxial(), source->GetOwner());
-			
 			source->SetOwner(Owner::NONE);
 			
-			inputPositions.clear();
+			/*inputPositions.clear();
 			currentPlayerID = (currentPlayerID + 1) % 2;
 			
-			std::cout << score[0] << " " << score[1] << "\n";
+			std::cout << score[0] << " " << score[1] << "\n";*/
 		}
 		else
 		{
 			inputPositions.erase(inputPositions.begin());
 		}
+		
+
 	}
 }
 
@@ -164,4 +165,23 @@ void Game::TakePositionOver(Vector2 position, Owner owner)
 			neighbour->SetOwner(owner);
 		 }
 	}
+	
+	inputPositions.clear();
+	currentPlayerID = (currentPlayerID + 1) % 2;
+			
+	std::cout << score[0] << " " << score[1] << "\n";
+	
+	Owner winner = GameOver();
+	if( winner != Owner::NONE)
+		std::cout << "Game Over! Winner: " << static_cast<int>(winner) << "\n";
+}
+
+Owner Game::GameOver()
+{
+	if( score[1]  == 0 || (score[0] + score[1] == 58 && score[0] > score[1]) )
+		return Owner::PLAYER;
+	else if( score[0] == 0 || (score[0] + score[1] == 58 && score[0] < score[1]) )
+		return Owner::OPPONENT;
+	
+	return Owner::NONE;
 }

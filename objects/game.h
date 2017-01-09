@@ -27,7 +27,7 @@ public:
 
 private:
 	void TakePositionOver(Vector2 position, Owner owner);
-
+	Owner GameOver();
 
 	std::map<Vector2, Field*> fieldsMap;
 	Vector2 position;
