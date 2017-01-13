@@ -20,11 +20,16 @@ class HexagonGame : public Game
 	virtual void Update() override;
 	virtual void HandleEvents(SDL_Event& event)  override;
 	
+	virtual Owner GameOver();
+	
 	void ProcessInput(Vector2 position);
+	
+	std::map<Vector2, Field*>& GetFieldsMap();
+	std::map<Vector2, std::vector<Vector2>>& GetNeighbourhood();
 
 private:
 	void TakePositionOver(Vector2 position, Owner owner);
-	virtual Owner GameOver();
+
 
 	std::map<Vector2, Field*> fieldsMap;
 	

@@ -15,6 +15,17 @@ Game::~Game()
 	}*/
 }
 
+void Game::ChangePlayer()
+{
+	currentPlayerID = (currentPlayerID + 1) % 2;
+	std::cout << score[0] << " " << score[1] << "\n";
+}
+
+void Game::UpdatePlayerScore(Owner player, int scoreChange)
+{
+	score[static_cast<int>(player)] += scoreChange;
+}
+
 /*void Game::Init()
 {
 

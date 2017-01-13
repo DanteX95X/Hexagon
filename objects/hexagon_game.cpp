@@ -1,5 +1,6 @@
 #include "hexagon_game.h"
 #include "../utilities/hex.h"
+#include "../utilities/hexagon_move.h"
 
 HexagonGame::HexagonGame(Vector2 initPosition, double initSize)
 	: Game(initPosition, initSize), inputPositions()
@@ -111,12 +112,18 @@ void HexagonGame::ProcessInput(Vector2 position)
 		if( distance == 1 )
 		{
 			++score[static_cast<int>(source->GetOwner())];
-			TakePositionOver(destination->GetAxial(), source->GetOwner());
+			//TakePositionOver(destination->GetAxial(), source->GetOwner());
+			HexagonMove move(destination->GetAxial(), source->GetOwner());
+			move.MakeAMove(this);
+			inputPositions.clear();
 			
 		}
 		else if( distance == 2 )
 		{
-			TakePositionOver(destination->GetAxial(), source->GetOwner());
+			HexagonMove move(destination->GetAxial(), source->GetOwner());
+			move.MakeAMove(this);
+			inputPositions.clear();
+			//TakePositionOver(destination->GetAxial(), source->GetOwner());
 			source->SetOwner(Owner::NONE);
 			
 		}
@@ -177,3 +184,6 @@ Owner HexagonGame::GameOver()
 	
 	return Owner::NONE;
 }
+
+std::map<Vector2, Field*>& HexagonGame::GetFieldsMap() { return fieldsMap; }
+std::map<Vector2, std::vector<Vector2>>& HexagonGame::GetNeighbourhood() { return neighbourhood; }

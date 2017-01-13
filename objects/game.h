@@ -27,12 +27,15 @@ public:
 	
 	virtual void Update() = 0;
 	virtual void HandleEvents(SDL_Event& event)  = 0;
+	virtual Owner GameOver() = 0;
+	
+	void ChangePlayer();
+	void UpdatePlayerScore(Owner player, int scoreChange);
 	
 	//void ProcessInput(Vector2 position);
 
 protected:
 	//void TakePositionOver(Vector2 position, Owner owner);
-	virtual Owner GameOver() = 0;
 
 	//std::map<Vector2, Field*> fieldsMap;
 	Vector2 position;
