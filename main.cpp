@@ -4,7 +4,7 @@
 #include "objects/field.h"
 #include "utilities/timer.h"
 
-#include "objects/game.h"
+#include "objects/hexagon_game.h"
 
 #include "objects/actor.h"
 #include "min_max/vertex.h"
@@ -18,7 +18,7 @@ int main(int argc, char** argv)
 	SDL_Event event;
 	Window window;
 
-	Game game(Vector2 (300,200), 50);
+	HexagonGame game(Vector2 (300,200), 50);
 
 	/*int childQuantity, value;
 	std::cin >> childQuantity >> value;

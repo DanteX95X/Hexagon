@@ -2,7 +2,7 @@
 #include <iostream>
 #include "../utilities/texture_flyweight.h"
 
-Field::Field(Game* initGame, Vector2 initAxial, Vector2 position, float size, std::string texturePath, Owner initOwner)
+Field::Field(HexagonGame* initGame, Vector2 initAxial, Vector2 position, float size, std::string texturePath, Owner initOwner)
 	:Actor(Vector2 (position.x - size*0.5, position.y - size*0.5), 
 	Vector2 (size, size), texturePath), 
 	axial{initAxial}, 

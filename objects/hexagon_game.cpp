@@ -1,21 +1,21 @@
-#include "game.h"
+#include "hexagon_game.h"
 #include "../utilities/hex.h"
 
-Game::Game(Vector2 initPosition, double initSize)
-	: Actor(initPosition, Vector2(initSize, initSize)), position{initPosition}, size{initSize}, currentPlayerID{0}, score({3,3})
+HexagonGame::HexagonGame(Vector2 initPosition, double initSize)
+	: Game(initPosition, initSize), inputPositions()
 {
-	//Init();
+	Init();
 };
 
-Game::~Game()
+HexagonGame::~HexagonGame()
 {
-	/*for( auto& field : fieldsMap )
+	for( auto& field : fieldsMap )
 	{
 		delete field.second;
-	}*/
+	}
 }
 
-/*void Game::Init()
+void HexagonGame::Init()
 {
 
 	int left = 0;
@@ -62,30 +62,30 @@ Game::~Game()
 		}
 		std::cout << "\n";
 	}
-}*/
+}
 
 
-/*void Game::Render(SDL_Renderer* renderer)
+void HexagonGame::Render(SDL_Renderer* renderer)
 {	
 	for( auto& field : fieldsMap )
 	{
 		field.second->Render(renderer);
 	}
-}*/
+}
 
-/*void Game::Update()
+void HexagonGame::Update()
 {
-}*/
+}
 
-/*void Game::HandleEvents(SDL_Event& event)
+void HexagonGame::HandleEvents(SDL_Event& event)
 {
 	for( auto& field : fieldsMap )
 	{
 		field.second->HandleEvents(event);
 	}
-}*/
+}
 
-/*void Game::ProcessInput(Vector2 position)
+void HexagonGame::ProcessInput(Vector2 position)
 {
 	inputPositions.push_back(position);
 	Field* source = fieldsMap[inputPositions.front()];
@@ -127,9 +127,9 @@ Game::~Game()
 		
 
 	}
-}*/
+}
 
-/*void Game::SetUpNeighbours()
+void HexagonGame::SetUpNeighbours()
 {
 	for( auto& field : fieldsMap )
 	{
@@ -140,9 +140,9 @@ Game::~Game()
 				neighbourhood[field.second->GetAxial()].push_back(field.second->GetAxial() + displacement);
 		}
 	}
-}*/
+}
 
-/*void Game::TakePositionOver(Vector2 position, Owner owner)
+void HexagonGame::TakePositionOver(Vector2 position, Owner owner)
 {
 	Field* field = fieldsMap[position];
 	field->SetOwner(owner);
@@ -166,9 +166,9 @@ Game::~Game()
 	Owner winner = GameOver();
 	if( winner != Owner::NONE)
 		std::cout << "Game Over! Winner: " << static_cast<int>(winner) << "\n";
-}*/
+}
 
-/*Owner Game::GameOver()
+Owner HexagonGame::GameOver()
 {
 	if( score[1]  == 0 || (score[0] + score[1] == 58 && score[0] > score[1]) )
 		return Owner::PLAYER;
@@ -176,4 +176,4 @@ Game::~Game()
 		return Owner::OPPONENT;
 	
 	return Owner::NONE;
-}*/
+}

@@ -2,21 +2,16 @@
 #define FIELD_H
 #include <vector>
 #include "actor.h"
-#include "game.h"
+#include "hexagon_game.h"
 
-class Game;
+class HexagonGame;
 
-enum class Owner
-{
-	NONE = -1,
-	PLAYER = 0,
-	OPPONENT = 1,
-};
+
 
 class Field : public Actor
 {
 public:
-	Field(Game* initGame, Vector2 initAxial, Vector2 position, float size, std::string texturePath, Owner initOwner = Owner::NONE);
+	Field(HexagonGame* initGame, Vector2 initAxial, Vector2 position, float size, std::string texturePath, Owner initOwner = Owner::NONE);
 	
 	void HandleEvents(SDL_Event& event) override;
 	void Update() override;
@@ -34,7 +29,7 @@ private:
 	SDL_Texture* playerPawn;
 	SDL_Texture* opponentPawn;
 	
-	Game* game;
+	HexagonGame* game;
 };
 
 
