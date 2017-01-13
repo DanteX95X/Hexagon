@@ -32,6 +32,8 @@ public:
 	void ChangePlayer();
 	void UpdatePlayerScore(Owner player, int scoreChange);
 	
+	int GetCurrentPlayerID();
+	
 	//void ProcessInput(Vector2 position);
 
 protected:

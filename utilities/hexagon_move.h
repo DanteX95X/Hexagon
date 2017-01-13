@@ -2,18 +2,21 @@
 #define HEXAGON_MOVE_H
 
 #include "move.h"
+#include "../objects/hexagon_game.h"
 
 
 class HexagonMove : public Move
 {
 public:
-	HexagonMove(Vector2 initPosition, Owner initOwner);
+	HexagonMove(Vector2 initSource, Vector2 initDestination);
 	
-	void MakeAMove(Game* currentGame) override;
+	bool MakeAMove(Game* currentGame) override;
 	
 private:
-	Vector2 position;
-	Owner owner;
+	void TakePositionOver(HexagonGame* game, Vector2 position, Owner owner);
+
+	Vector2 sourcePosition;
+	Vector2 destinationPosition;
 };
 
 

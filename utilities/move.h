@@ -9,7 +9,7 @@ public:
 	Move();
 	virtual ~Move();
 	
-	virtual void MakeAMove(Game* currentGame) = 0;
+	virtual bool MakeAMove(Game* currentGame) = 0;
 };
 
 #endif //MOVE_H

@@ -28,10 +28,8 @@ class HexagonGame : public Game
 	std::map<Vector2, std::vector<Vector2>>& GetNeighbourhood();
 
 private:
-	void TakePositionOver(Vector2 position, Owner owner);
-
-
 	std::map<Vector2, Field*> fieldsMap;
+	int mapSize;
 	
 	std::vector<Vector2> inputPositions;
 	std::map<Vector2, std::vector<Vector2>> neighbourhood;

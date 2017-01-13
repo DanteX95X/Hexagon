@@ -3,7 +3,7 @@
 #include "../utilities/hexagon_move.h"
 
 HexagonGame::HexagonGame(Vector2 initPosition, double initSize)
-	: Game(initPosition, initSize), inputPositions()
+	: Game(initPosition, initSize), mapSize{0}, inputPositions()
 {
 	Init();
 };
@@ -49,7 +49,8 @@ void HexagonGame::Init()
 		
 	}
 
-
+	mapSize = fieldsMap.size();
+	std::cout << "MapSize = " << mapSize << '\n';
 	SetUpNeighbours();
 	
 	for(auto& ufo : neighbourhood)
@@ -89,49 +90,16 @@ void HexagonGame::HandleEvents(SDL_Event& event)
 void HexagonGame::ProcessInput(Vector2 position)
 {
 	inputPositions.push_back(position);
-	Field* source = fieldsMap[inputPositions.front()];
-	
-	if( source->GetOwner() == Owner::NONE || static_cast<int>(source->GetOwner()) != currentPlayerID )
-	{
-		std::cout << "Empty!\n";
-		inputPositions.clear();
-		return;
-	}
 	
 	if(inputPositions.size() == 2)
 	{
-		unsigned int distance = Hex::Distance(inputPositions.front(), inputPositions.back());
-		Field* destination = fieldsMap[inputPositions.back()];
+		HexagonMove move(inputPositions[0], inputPositions[1]);
+		bool isMoveValid = move.MakeAMove(this);
 		
-		if(destination->GetOwner() != Owner::NONE)
-		{
-			inputPositions.erase(inputPositions.begin());
-			return;
-		}
-		
-		if( distance == 1 )
-		{
-			++score[static_cast<int>(source->GetOwner())];
-			//TakePositionOver(destination->GetAxial(), source->GetOwner());
-			HexagonMove move(destination->GetAxial(), source->GetOwner());
-			move.MakeAMove(this);
+		if(isMoveValid)
 			inputPositions.clear();
-			
-		}
-		else if( distance == 2 )
-		{
-			HexagonMove move(destination->GetAxial(), source->GetOwner());
-			move.MakeAMove(this);
-			inputPositions.clear();
-			//TakePositionOver(destination->GetAxial(), source->GetOwner());
-			source->SetOwner(Owner::NONE);
-			
-		}
 		else
-		{
 			inputPositions.erase(inputPositions.begin());
-		}
-		
 
 	}
 }
@@ -149,37 +117,12 @@ void HexagonGame::SetUpNeighbours()
 	}
 }
 
-void HexagonGame::TakePositionOver(Vector2 position, Owner owner)
-{
-	Field* field = fieldsMap[position];
-	field->SetOwner(owner);
-	
-	for( Vector2 neighbourPosition : neighbourhood[position] )
-	{
-		 Field* neighbour = fieldsMap[neighbourPosition];
-		 if( neighbour->GetOwner() != Owner::NONE && neighbour->GetOwner() != owner)
-		 {
-			 ++score[static_cast<int>(owner)];
-			 --score[static_cast<int>(neighbour->GetOwner())];
-			neighbour->SetOwner(owner);
-		 }
-	}
-	
-	inputPositions.clear();
-	currentPlayerID = (currentPlayerID + 1) % 2;
-			
-	std::cout << score[0] << " " << score[1] << "\n";
-	
-	Owner winner = GameOver();
-	if( winner != Owner::NONE)
-		std::cout << "Game Over! Winner: " << static_cast<int>(winner) << "\n";
-}
-
 Owner HexagonGame::GameOver()
 {
-	if( score[1]  == 0 || (score[0] + score[1] == 58 && score[0] > score[1]) )
+	std::cout << "Checking if someone won\n";
+	if( score[1]  == 0 || (score[0] + score[1] ==  mapSize && score[0] > score[1]) )
 		return Owner::PLAYER;
-	else if( score[0] == 0 || (score[0] + score[1] == 58 && score[0] < score[1]) )
+	else if( score[0] == 0 || (score[0] + score[1] == mapSize && score[0] < score[1]) )
 		return Owner::OPPONENT;
 	
 	return Owner::NONE;
