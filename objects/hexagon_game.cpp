@@ -77,13 +77,35 @@ void HexagonGame::Render(SDL_Renderer* renderer)
 
 void HexagonGame::Update()
 {
+	if(currentPlayerID == 1)
+	{
+		for(auto& field : fieldsMap)
+		{
+			if( field.second->GetOwner() == Owner::OPPONENT)
+			{
+				for(Vector2 neighbourPosition : neighbourhood[field.first])
+				{
+					Field* neighbour = fieldsMap[neighbourPosition];
+					if(neighbour->GetOwner() == Owner::NONE)
+					{
+						HexagonMove move(field.first, neighbourPosition);
+						move.MakeAMove(this);
+						return;
+					}
+				}
+			}
+		}
+	}
 }
 
 void HexagonGame::HandleEvents(SDL_Event& event)
 {
-	for( auto& field : fieldsMap )
+	if(currentPlayerID == 0)
 	{
-		field.second->HandleEvents(event);
+		for( auto& field : fieldsMap )
+		{
+			field.second->HandleEvents(event);
+		}
 	}
 }
 

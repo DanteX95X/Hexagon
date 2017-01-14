@@ -53,6 +53,7 @@ int main(int argc, char** argv)
 		}
 
 		Timer::Instance().Update();
+		game.Update();
 
 		SDL_RenderClear(window.GetRenderer());
 		game.Render(window.GetRenderer());
