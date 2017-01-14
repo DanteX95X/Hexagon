@@ -1,6 +1,7 @@
 #include "hexagon_game.h"
 #include "../utilities/hex.h"
 #include "../utilities/hexagon_move.h"
+#include <algorithm>
 
 HexagonGame::HexagonGame(Vector2 initPosition, double initSize)
 	: Game(initPosition, initSize), mapSize{0}, inputPositions()
@@ -79,6 +80,7 @@ void HexagonGame::Update()
 {
 	if(currentPlayerID == 1)
 	{
+		std::map<Vector2, HexagonMove> moves;
 		for(auto& field : fieldsMap)
 		{
 			if( field.second->GetOwner() == Owner::OPPONENT)
@@ -88,13 +90,19 @@ void HexagonGame::Update()
 					Field* neighbour = fieldsMap[neighbourPosition];
 					if(neighbour->GetOwner() == Owner::NONE)
 					{
-						HexagonMove move(field.first, neighbourPosition);
-						move.MakeAMove(this);
-						return;
+						moves.insert(std::make_pair(neighbourPosition, HexagonMove(field.first, neighbourPosition)));
+						for(Vector2 furtherNeighbourPosition : neighbourhood[neighbourPosition])
+						{
+							Field* furtherNeighbour = fieldsMap[furtherNeighbourPosition];
+							if(furtherNeighbour->GetOwner() == Owner::NONE)
+								moves.insert(std::make_pair(furtherNeighbourPosition, HexagonMove(field.first, furtherNeighbourPosition)));
+						}
 					}
 				}
 			}
 		}
+		std::cout << "Possible moves " << moves.size() << '\n';
+		moves.begin()->second.MakeAMove(this);
 	}
 }
 
