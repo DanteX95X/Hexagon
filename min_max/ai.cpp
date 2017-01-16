@@ -11,10 +11,14 @@ int AI::AlphaBetaPruning(Vertex* vertex, int depth, int alpha, int beta, bool is
 		value = INT_MIN;
 		for( Vertex*& child : vertex->GetChildren() )
 		{
-			value = std::max(value, AlphaBetaPruning(child, depth-1, alpha, beta, false));
-			alpha = std::max(value, alpha);
+			alpha = std::max(std::max(value, AlphaBetaPruning(child, depth-1, alpha, beta, false)), alpha);
 			if( beta <= alpha )
+			{
+				value = beta;
 				break;
+			}
+			else
+				value = alpha;
 		}
 	}
 	else
@@ -22,10 +26,15 @@ int AI::AlphaBetaPruning(Vertex* vertex, int depth, int alpha, int beta, bool is
 		value = INT_MAX;
 		for( Vertex*& child : vertex->GetChildren() )
 		{
-			value = std::min(value, AlphaBetaPruning(child, depth - 1, alpha, beta, true));
-			beta = std::min(value, beta);
+			//value = ;
+			beta = std::min(std::min(value, AlphaBetaPruning(child, depth - 1, alpha, beta, true)), beta);
 			if( beta <= alpha )
+			{
+				value = alpha;
 				break;
+			}
+			else
+				value = beta;
 		}
 	}
 	vertex->SetValue(value);
