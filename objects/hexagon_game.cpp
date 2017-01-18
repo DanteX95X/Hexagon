@@ -102,7 +102,8 @@ void HexagonGame::Update()
 			}
 		}
 		std::cout << "Possible moves " << moves.size() << '\n';
-		moves.begin()->second.MakeAMove(this);
+		if(moves.size() > 0)
+			moves.begin()->second.MakeAMove(this);
 	}
 }
 
