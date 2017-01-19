@@ -173,7 +173,7 @@ Owner HexagonGame::GameOver()
 
 std::shared_ptr<Game> HexagonGame::Clone()
 {
-	return std::shared_ptr<Game>(new HexagonGame({0,0}, 0));
+	return std::shared_ptr<Game>(new HexagonGame(*this));
 }
 
 std::map<Vector2, Field*>& HexagonGame::GetFieldsMap() { return fieldsMap; }

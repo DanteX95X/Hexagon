@@ -18,9 +18,9 @@ int main(int argc, char** argv)
 	SDL_Event event;
 	Window window;
 
-	//HexagonGame game(Vector2 (300,200), 50, {false, true});
-	HexagonGame ufo(Vector2 (300,200), 50, {false, true});
-	HexagonGame game(ufo);
+	HexagonGame game(Vector2 (300,200), 50, {false, true});
+	//HexagonGame ufo(Vector2 (300,200), 50, {false, true});
+	//std::shared_ptr<Game> game = ufo.Clone();
 
 	/*int childQuantity, value;
 	std::cin >> childQuantity >> value;
