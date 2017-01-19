@@ -24,6 +24,7 @@ class HexagonGame : public Game
 	virtual std::vector<std::shared_ptr<Move>> GenerateMoves() override;
 	
 	std::shared_ptr<Game> Clone() override;
+	int EvaluateGame() override;
 	
 	void ProcessInput(Vector2 position);
 	

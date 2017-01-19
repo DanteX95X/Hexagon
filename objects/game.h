@@ -34,13 +34,13 @@ public:
 	virtual void HandleEvents(SDL_Event& event)  = 0;
 	virtual Owner GameOver() = 0;
 	virtual std::vector<std::shared_ptr<Move>> GenerateMoves() = 0;
+	virtual std::shared_ptr<Game> Clone() = 0;
+	virtual int EvaluateGame() = 0;
 	
 	void ChangePlayer();
 	void UpdatePlayerScore(Owner player, int scoreChange);
 	
 	int GetCurrentPlayerID();
-	
-	virtual std::shared_ptr<Game> Clone() = 0;
 
 protected:
 	Vector2 position;

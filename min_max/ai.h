@@ -3,11 +3,11 @@
 
 #include <climits>
 #include <algorithm>
-#include "vertex.h"
+#include "../objects/game.h"
 
 namespace AI
 {
-	int AlphaBetaPruning(Vertex* vertex, int depth, int alpha, int beta, bool isMaximizing);
+	std::pair<int, std::shared_ptr<Move>> AlphaBetaPruning(Game* state, int depth, int alpha, int beta, bool isMaximizing, std::shared_ptr<Move> lastMove);
 }
 
 #endif //AI_H

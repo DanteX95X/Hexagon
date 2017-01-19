@@ -3,6 +3,8 @@
 #include "../utilities/hexagon_move.h"
 #include <algorithm>
 #include <memory>
+#include <climits>
+#include "../min_max/ai.h"
 
 HexagonGame::HexagonGame(Vector2 initPosition, double initSize, std::array<bool, 2> initIsAI)
 	: Game(initPosition, initSize, initIsAI), mapSize{0}, inputPositions()
@@ -93,9 +95,49 @@ void HexagonGame::Update()
 		//std::cout << "AI turn\n";
 		
 		//std::cout << "Possible moves " << moves.size() << '\n';
-		auto moves = GenerateMoves();
+		auto move = AI::AlphaBetaPruning(this, 1, INT_MIN, INT_MAX, currentPlayerID == 0, nullptr);
+		std::cout << "Best move " << move.first << "\n";
+		//ChangePlayer();
+		move.second->MakeAMove(this);
+		
+		/*auto moves = GenerateMoves();
 		if(moves.size() > 0)
-			moves.front()->MakeAMove(this);
+		{
+			if(currentPlayerID == 1)
+			{
+				int maxEvaluation = INT_MAX;
+				std::shared_ptr<Move> bestMove;
+				for(auto& move : moves)
+				{
+					std::shared_ptr<Game> clone(Clone());
+					move->MakeAMove(clone.get());
+					if(clone->EvaluateGame() < maxEvaluation)
+					{
+						maxEvaluation = clone->EvaluateGame() ;
+						bestMove = move;
+					}
+				}
+				std::cout << "Best move " << maxEvaluation << "\n";
+				bestMove->MakeAMove(this);
+			}
+			else
+			{
+				int maxEvaluation = INT_MIN;
+				std::shared_ptr<Move> bestMove;
+				for(auto& move : moves)
+				{
+					std::shared_ptr<Game> clone(Clone());
+					move->MakeAMove(clone.get());
+					if(clone->EvaluateGame() > maxEvaluation)
+					{
+						maxEvaluation = clone->EvaluateGame() ;
+						bestMove = move;
+					}
+				}
+				std::cout << "Best move " << maxEvaluation << "\n";
+				bestMove->MakeAMove(this);
+			}
+		}*/
 		SDL_Delay(100);
 	}
 }
@@ -143,7 +185,7 @@ void HexagonGame::SetUpNeighbours()
 
 Owner HexagonGame::GameOver()
 {
-	std::cout << "Checking if someone won\n";
+	//std::cout << "Checking if someone won\n";
 	if( score[1]  == 0 || (score[0] + score[1] ==  mapSize && score[0] > score[1]) )
 		return Owner::PLAYER;
 	else if( score[0] == 0 || (score[0] + score[1] == mapSize && score[0] < score[1]) )
@@ -185,6 +227,11 @@ std::vector< std::shared_ptr<Move>> HexagonGame::GenerateMoves()
 std::shared_ptr<Game> HexagonGame::Clone()
 {
 	return std::shared_ptr<Game>(new HexagonGame(*this));
+}
+
+int HexagonGame::EvaluateGame()
+{
+	return score[0] - score[1];
 }
 
 std::map<Vector2, Field*>& HexagonGame::GetFieldsMap() { return fieldsMap; }

@@ -25,9 +25,9 @@ void Field::HandleEvents(SDL_Event& event)
         Vector2 midPosition = Vector2(Prop::GetPosition().x+(Prop::GetSize().x/2),Prop::GetPosition().y+(Prop::GetSize().y/2));
         if( IsMouseInside(clickPosition, midPosition ,Prop::GetSize().x) )
 		{
-            std::cout << axial;
-			std::cout <<  " ";
-			std::cout  << static_cast<int> (owner) << "\n";
+            //std::cout << axial;
+			//std::cout <<  " ";
+			//std::cout  << static_cast<int> (owner) << "\n";
 			game->ProcessInput(axial);
 		}
     }

@@ -3,9 +3,7 @@
 #include "objects/prop.h"
 #include "objects/field.h"
 #include "utilities/timer.h"
-
 #include "objects/hexagon_game.h"
-
 #include "objects/actor.h"
 #include "min_max/vertex.h"
 #include <queue>
@@ -18,7 +16,7 @@ int main(int argc, char** argv)
 	SDL_Event event;
 	Window window;
 
-	HexagonGame game(Vector2 (300,200), 50, {false, true});
+	HexagonGame game(Vector2 (320,240), 50, {false, true});
 	//HexagonGame ufo(Vector2 (300,200), 50, {false, true});
 	//std::shared_ptr<Game> game = ufo.Clone();
 
@@ -42,7 +40,7 @@ int main(int argc, char** argv)
 	delete root;*/
 
 	
-	while( !isDone)
+	while( !isDone )
 	{
 
 		while(SDL_PollEvent(&event))

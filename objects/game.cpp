@@ -23,7 +23,8 @@ Game::~Game()
 void Game::ChangePlayer()
 {
 	currentPlayerID = (currentPlayerID + 1) % 2;
-	std::cout << score[0] << " " << score[1] << "\n";
+	//std::cout << score[0] << " " << score[1] << "\n";
+	//std::cout << "Value " <<  EvaluateGame() << "\n";
 }
 
 void Game::UpdatePlayerScore(Owner player, int scoreChange)
