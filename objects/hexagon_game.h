@@ -10,6 +10,7 @@ class HexagonGame : public Game
 {
 	public:
 	HexagonGame(Vector2 initPosition, double size, std::array<bool, 2> initIsAI = {false, true});
+	HexagonGame(const HexagonGame& another);
 	~HexagonGame();
 	
 	void Init();
@@ -21,6 +22,8 @@ class HexagonGame : public Game
 	virtual void HandleEvents(SDL_Event& event)  override;
 	
 	virtual Owner GameOver();
+	
+	std::shared_ptr<Game> Clone() override;
 	
 	void ProcessInput(Vector2 position);
 	

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <array>
 #include "actor.h"
+#include <memory>
 
 
 enum class Owner
@@ -18,7 +19,8 @@ class Game: public Actor
 {
 public:
 	Game(Vector2 initPosition, double size, std::array<bool, 2> initIsAI);
-	~Game();
+	Game(const Game& another);
+	virtual ~Game();
 	
 	virtual void Init() = 0;
 
@@ -32,6 +34,8 @@ public:
 	void UpdatePlayerScore(Owner player, int scoreChange);
 	
 	int GetCurrentPlayerID();
+	
+	virtual std::shared_ptr<Game> Clone() = 0;
 
 protected:
 	Vector2 position;

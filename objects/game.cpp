@@ -4,7 +4,17 @@
 Game::Game(Vector2 initPosition, double initSize, std::array<bool, 2> initIsAI)
 	: Actor(initPosition, Vector2(0, 0)), position{initPosition}, size{initSize}, currentPlayerID{0}, score({0,0}), isAI(initIsAI)
 {
-};
+}
+
+Game::Game(const Game& another)
+	: Actor(another.position, Vector2(0,0))
+{
+	position = another.position;
+	size = another.size;
+	currentPlayerID = another.currentPlayerID;
+	score = another.score;
+	isAI = another.isAI;
+}
 
 Game::~Game()
 {

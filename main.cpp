@@ -18,7 +18,9 @@ int main(int argc, char** argv)
 	SDL_Event event;
 	Window window;
 
-	HexagonGame game(Vector2 (300,200), 50, {true, true});
+	//HexagonGame game(Vector2 (300,200), 50, {false, true});
+	HexagonGame ufo(Vector2 (300,200), 50, {false, true});
+	HexagonGame game(ufo);
 
 	/*int childQuantity, value;
 	std::cin >> childQuantity >> value;

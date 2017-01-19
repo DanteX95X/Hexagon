@@ -13,6 +13,7 @@ Field::Field(HexagonGame* initGame, Vector2 initAxial, Vector2 position, float s
 	opponentPawn = TextureFlyweight::Instance().GetTexture("pawn_red.png");
 }
 
+
 void Field::HandleEvents(SDL_Event& event)
 {
 	    int x,y;
@@ -24,10 +25,9 @@ void Field::HandleEvents(SDL_Event& event)
         Vector2 midPosition = Vector2(Prop::GetPosition().x+(Prop::GetSize().x/2),Prop::GetPosition().y+(Prop::GetSize().y/2));
         if( IsMouseInside(clickPosition, midPosition ,Prop::GetSize().x) )
 		{
-            //std::cout << axial;
-			//std::cout <<  " ";
-			//std::cout  << static_cast<int> (owner) << "\n";
-			//owner = Owner::PLAYER;
+            std::cout << axial;
+			std::cout <<  " ";
+			std::cout  << static_cast<int> (owner) << "\n";
 			game->ProcessInput(axial);
 		}
     }
@@ -52,3 +52,5 @@ Owner Field::GetOwner() { return owner; }
 void Field::SetOwner(Owner newOwner) { owner = newOwner; }
 
 Vector2 Field::GetAxial() { return axial; }
+
+void Field::SetGame(HexagonGame* newGame) { game = newGame; }

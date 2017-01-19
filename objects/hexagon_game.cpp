@@ -8,7 +8,22 @@ HexagonGame::HexagonGame(Vector2 initPosition, double initSize, std::array<bool,
 	: Game(initPosition, initSize, initIsAI), mapSize{0}, inputPositions()
 {
 	Init();
-};
+}
+
+HexagonGame::HexagonGame(const HexagonGame& another)
+	: Game(another)
+{
+	for(auto& field : another.fieldsMap)
+	{
+		Field* newField = new Field(*field.second);
+		newField->SetGame(this);
+		fieldsMap[field.first] = newField;
+	}
+	mapSize = another.mapSize;
+	neighbourhood = another.neighbourhood;
+	inputPositions = another.inputPositions;
+}
+
 
 HexagonGame::~HexagonGame()
 {
@@ -75,30 +90,31 @@ void HexagonGame::Update()
 {
 	if( isAI[currentPlayerID] )
 	{
-		std::map<Vector2, std::shared_ptr<Move> > moves;
+		//std::cout << "AI turn\n";
+		std::vector<std::shared_ptr<Move> > moves;
 		for(auto& field : fieldsMap)
 		{
-			if( field.second->GetOwner() == static_cast<Owner>(currentPlayerID)/*Owner::OPPONENT*/)
+			if( field.second->GetOwner() == static_cast<Owner>(currentPlayerID))
 			{
 				for(Vector2 neighbourPosition : neighbourhood[field.first])
 				{
 					Field* neighbour = fieldsMap[neighbourPosition];
 					if(neighbour->GetOwner() == Owner::NONE)
 					{
-						moves.insert(std::make_pair(neighbourPosition, std::shared_ptr<Move> (new HexagonMove(field.first, neighbourPosition)) ));
+						moves.push_back(std::shared_ptr<Move> (new HexagonMove(field.first, neighbourPosition)) );
 						for(Vector2 furtherNeighbourPosition : neighbourhood[neighbourPosition])
 						{
 							Field* furtherNeighbour = fieldsMap[furtherNeighbourPosition];
 							if(furtherNeighbour->GetOwner() == Owner::NONE)
-								moves.insert(std::make_pair(furtherNeighbourPosition, std::shared_ptr<Move> (new HexagonMove(field.first, furtherNeighbourPosition)) ));
+								moves.push_back(std::shared_ptr<Move> (new HexagonMove(field.first, furtherNeighbourPosition)) );
 						}
 					}
 				}
 			}
 		}
-		std::cout << "Possible moves " << moves.size() << '\n';
+		//std::cout << "Possible moves " << moves.size() << '\n';
 		if(moves.size() > 0)
-			moves.begin()->second->MakeAMove(this);
+			moves.front()->MakeAMove(this);
 		SDL_Delay(100);
 	}
 }
@@ -153,6 +169,11 @@ Owner HexagonGame::GameOver()
 		return Owner::OPPONENT;
 	
 	return Owner::NONE;
+}
+
+std::shared_ptr<Game> HexagonGame::Clone()
+{
+	return std::shared_ptr<Game>(new HexagonGame({0,0}, 0));
 }
 
 std::map<Vector2, Field*>& HexagonGame::GetFieldsMap() { return fieldsMap; }
