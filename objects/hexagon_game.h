@@ -20,8 +20,8 @@ class HexagonGame : public Game
 	
 	virtual void Update() override;
 	virtual void HandleEvents(SDL_Event& event)  override;
-	
 	virtual Owner GameOver();
+	virtual std::vector<std::shared_ptr<Move>> GenerateMoves() override;
 	
 	std::shared_ptr<Game> Clone() override;
 	

@@ -91,28 +91,9 @@ void HexagonGame::Update()
 	if( isAI[currentPlayerID] )
 	{
 		//std::cout << "AI turn\n";
-		std::vector<std::shared_ptr<Move> > moves;
-		for(auto& field : fieldsMap)
-		{
-			if( field.second->GetOwner() == static_cast<Owner>(currentPlayerID))
-			{
-				for(Vector2 neighbourPosition : neighbourhood[field.first])
-				{
-					Field* neighbour = fieldsMap[neighbourPosition];
-					if(neighbour->GetOwner() == Owner::NONE)
-					{
-						moves.push_back(std::shared_ptr<Move> (new HexagonMove(field.first, neighbourPosition)) );
-						for(Vector2 furtherNeighbourPosition : neighbourhood[neighbourPosition])
-						{
-							Field* furtherNeighbour = fieldsMap[furtherNeighbourPosition];
-							if(furtherNeighbour->GetOwner() == Owner::NONE)
-								moves.push_back(std::shared_ptr<Move> (new HexagonMove(field.first, furtherNeighbourPosition)) );
-						}
-					}
-				}
-			}
-		}
+		
 		//std::cout << "Possible moves " << moves.size() << '\n';
+		auto moves = GenerateMoves();
 		if(moves.size() > 0)
 			moves.front()->MakeAMove(this);
 		SDL_Delay(100);
@@ -167,8 +148,38 @@ Owner HexagonGame::GameOver()
 		return Owner::PLAYER;
 	else if( score[0] == 0 || (score[0] + score[1] == mapSize && score[0] < score[1]) )
 		return Owner::OPPONENT;
+		
+	auto moves = GenerateMoves();
+	if(moves.size() == 0)
+		return static_cast<Owner>(1 - currentPlayerID);
 	
 	return Owner::NONE;
+}
+
+std::vector< std::shared_ptr<Move>> HexagonGame::GenerateMoves()
+{
+	std::vector<std::shared_ptr<Move> > moves;
+	for(auto& field : fieldsMap)
+	{
+		if( field.second->GetOwner() == static_cast<Owner>(currentPlayerID))
+		{
+			for(Vector2 neighbourPosition : neighbourhood[field.first])
+			{
+				Field* neighbour = fieldsMap[neighbourPosition];
+				if(neighbour->GetOwner() == Owner::NONE)
+				{
+					moves.push_back(std::shared_ptr<Move> (new HexagonMove(field.first, neighbourPosition)) );
+					for(Vector2 furtherNeighbourPosition : neighbourhood[neighbourPosition])
+					{
+						Field* furtherNeighbour = fieldsMap[furtherNeighbourPosition];
+						if(furtherNeighbour->GetOwner() == Owner::NONE)
+							moves.push_back(std::shared_ptr<Move> (new HexagonMove(field.first, furtherNeighbourPosition)) );
+					}
+				}
+			}
+		}
+	}
+	return moves;
 }
 
 std::shared_ptr<Game> HexagonGame::Clone()

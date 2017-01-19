@@ -3,6 +3,8 @@
 
 #include "../objects/game.h"
 
+class Game;
+
 class Move
 {
 public:

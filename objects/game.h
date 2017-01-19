@@ -6,6 +6,8 @@
 #include <array>
 #include "actor.h"
 #include <memory>
+#include <vector>
+#include "../utilities/move.h"
 
 
 enum class Owner
@@ -14,6 +16,8 @@ enum class Owner
 	PLAYER = 0,
 	OPPONENT = 1,
 };
+
+class Move;
 
 class Game: public Actor
 {
@@ -29,6 +33,7 @@ public:
 	virtual void Update() = 0;
 	virtual void HandleEvents(SDL_Event& event)  = 0;
 	virtual Owner GameOver() = 0;
+	virtual std::vector<std::shared_ptr<Move>> GenerateMoves() = 0;
 	
 	void ChangePlayer();
 	void UpdatePlayerScore(Owner player, int scoreChange);
