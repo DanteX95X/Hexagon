@@ -2,7 +2,7 @@
 #include "../utilities/hex.h"
 
 Game::Game(Vector2 initPosition, double initSize, std::array<bool, 2> initIsAI)
-	: Actor(initPosition, Vector2(initSize, initSize)), position{initPosition}, size{initSize}, currentPlayerID{0}, score({0,0}), isAI(initIsAI)
+	: Actor(initPosition, Vector2(0, 0)), position{initPosition}, size{initSize}, currentPlayerID{0}, score({0,0}), isAI(initIsAI)
 {
 };
 
