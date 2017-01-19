@@ -2,6 +2,7 @@
 #include "../utilities/hex.h"
 #include "../utilities/hexagon_move.h"
 #include <algorithm>
+#include <memory>
 
 HexagonGame::HexagonGame(Vector2 initPosition, double initSize)
 	: Game(initPosition, initSize), mapSize{0}, inputPositions()
@@ -80,7 +81,7 @@ void HexagonGame::Update()
 {
 	if(currentPlayerID == 1)
 	{
-		std::map<Vector2, HexagonMove> moves;
+		std::map<Vector2, std::shared_ptr<Move> > moves;
 		for(auto& field : fieldsMap)
 		{
 			if( field.second->GetOwner() == Owner::OPPONENT)
@@ -90,12 +91,12 @@ void HexagonGame::Update()
 					Field* neighbour = fieldsMap[neighbourPosition];
 					if(neighbour->GetOwner() == Owner::NONE)
 					{
-						moves.insert(std::make_pair(neighbourPosition, HexagonMove(field.first, neighbourPosition)));
+						moves.insert(std::make_pair(neighbourPosition, std::shared_ptr<Move> (new HexagonMove(field.first, neighbourPosition)) ));
 						for(Vector2 furtherNeighbourPosition : neighbourhood[neighbourPosition])
 						{
 							Field* furtherNeighbour = fieldsMap[furtherNeighbourPosition];
 							if(furtherNeighbour->GetOwner() == Owner::NONE)
-								moves.insert(std::make_pair(furtherNeighbourPosition, HexagonMove(field.first, furtherNeighbourPosition)));
+								moves.insert(std::make_pair(furtherNeighbourPosition, std::shared_ptr<Move> (new HexagonMove(field.first, furtherNeighbourPosition)) ));
 						}
 					}
 				}
@@ -103,7 +104,7 @@ void HexagonGame::Update()
 		}
 		std::cout << "Possible moves " << moves.size() << '\n';
 		if(moves.size() > 0)
-			moves.begin()->second.MakeAMove(this);
+			moves.begin()->second->MakeAMove(this);
 	}
 }
 
