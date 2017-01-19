@@ -9,7 +9,7 @@ class Field;
 class HexagonGame : public Game
 {
 	public:
-	HexagonGame(Vector2 initPosition, double size);
+	HexagonGame(Vector2 initPosition, double size, std::array<bool, 2> initIsAI = {false, true});
 	~HexagonGame();
 	
 	void Init();

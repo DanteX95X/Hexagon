@@ -4,8 +4,8 @@
 #include <algorithm>
 #include <memory>
 
-HexagonGame::HexagonGame(Vector2 initPosition, double initSize)
-	: Game(initPosition, initSize), mapSize{0}, inputPositions()
+HexagonGame::HexagonGame(Vector2 initPosition, double initSize, std::array<bool, 2> initIsAI)
+	: Game(initPosition, initSize, initIsAI), mapSize{0}, inputPositions()
 {
 	Init();
 };
@@ -55,16 +55,10 @@ void HexagonGame::Init()
 	std::cout << "MapSize = " << mapSize << '\n';
 	SetUpNeighbours();
 	
-	for(auto& ufo : neighbourhood)
+	for(auto& field : fieldsMap)
 	{
-		std::cout << ufo.first;
-		std::cout << "\t";
-		for(Vector2 porno : ufo.second)
-		{
-			std::cout << porno;
-			std::cout << " ";
-		}
-		std::cout << "\n";
+		if(field.second->GetOwner() != Owner::NONE)
+			++score[static_cast<int>(field.second->GetOwner())];
 	}
 }
 
@@ -79,12 +73,12 @@ void HexagonGame::Render(SDL_Renderer* renderer)
 
 void HexagonGame::Update()
 {
-	if(currentPlayerID == 1)
+	if( isAI[currentPlayerID] )
 	{
 		std::map<Vector2, std::shared_ptr<Move> > moves;
 		for(auto& field : fieldsMap)
 		{
-			if( field.second->GetOwner() == Owner::OPPONENT)
+			if( field.second->GetOwner() == static_cast<Owner>(currentPlayerID)/*Owner::OPPONENT*/)
 			{
 				for(Vector2 neighbourPosition : neighbourhood[field.first])
 				{
@@ -105,12 +99,13 @@ void HexagonGame::Update()
 		std::cout << "Possible moves " << moves.size() << '\n';
 		if(moves.size() > 0)
 			moves.begin()->second->MakeAMove(this);
+		SDL_Delay(100);
 	}
 }
 
 void HexagonGame::HandleEvents(SDL_Event& event)
 {
-	if(currentPlayerID == 0)
+	if( !isAI[currentPlayerID] )
 	{
 		for( auto& field : fieldsMap )
 		{
