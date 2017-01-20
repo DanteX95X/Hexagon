@@ -176,7 +176,7 @@ Owner HexagonGame::GameOver()
 
 std::vector< std::shared_ptr<Move>> HexagonGame::GenerateMoves()
 {
-	std::vector<std::shared_ptr<Move> > moves;
+	std::map<Vector2, std::shared_ptr<Move> > moves;
 	for(auto& field : fieldsMap)
 	{
 		if( field.second->GetOwner() == static_cast<Owner>(currentPlayerID))
@@ -186,18 +186,24 @@ std::vector< std::shared_ptr<Move>> HexagonGame::GenerateMoves()
 				Field* neighbour = fieldsMap[neighbourPosition];
 				if(neighbour->GetOwner() == Owner::NONE)
 				{
-					moves.push_back(std::shared_ptr<Move> (new HexagonMove(field.first, neighbourPosition)) );
+					moves.insert({neighbourPosition, std::shared_ptr<Move> (new HexagonMove(field.first, neighbourPosition))} );
 					for(Vector2 furtherNeighbourPosition : neighbourhood[neighbourPosition])
 					{
 						Field* furtherNeighbour = fieldsMap[furtherNeighbourPosition];
 						if(furtherNeighbour->GetOwner() == Owner::NONE)
-							moves.push_back(std::shared_ptr<Move> (new HexagonMove(field.first, furtherNeighbourPosition)) );
+							moves.insert({furtherNeighbourPosition, std::shared_ptr<Move> (new HexagonMove(field.first, furtherNeighbourPosition))} );
 					}
 				}
 			}
 		}
 	}
-	return moves;
+	
+	std::vector<std::shared_ptr<Move>> allMoves;
+	
+	for(auto& move : moves)
+		allMoves.push_back(move.second);
+	
+	return allMoves;
 }
 
 std::shared_ptr<Game> HexagonGame::Clone()
