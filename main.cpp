@@ -5,7 +5,6 @@
 #include "utilities/timer.h"
 #include "objects/hexagon_game.h"
 #include "objects/actor.h"
-#include "min_max/vertex.h"
 #include <queue>
 #include "min_max/ai.h"
 #include "objects/text_field.h"
