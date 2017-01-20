@@ -7,6 +7,7 @@ Window::Window(unsigned int widthInit, unsigned int heightInit, std::string titl
 {
 	InitializeSDL();
 	InitializeIMG();
+	InitializeTTF();
 	SetUpWindow(width, height, title);
 }
 
@@ -15,6 +16,7 @@ Window::~Window()
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 
+	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }
@@ -22,6 +24,11 @@ Window::~Window()
 void Window::InitializeSDL()
 {
 	assert(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != -1);
+}
+
+void Window::InitializeTTF()
+{
+	assert(TTF_Init() != -1);
 }
 
 void Window::InitializeIMG()
