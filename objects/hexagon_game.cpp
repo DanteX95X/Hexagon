@@ -6,8 +6,8 @@
 #include <climits>
 #include "../min_max/ai.h"
 
-HexagonGame::HexagonGame(Vector2 initPosition, double initSize, std::array<bool, 2> initIsAI)
-	: Game(initPosition, initSize, initIsAI), mapSize{0}, inputPositions()
+HexagonGame::HexagonGame(Vector2 initPosition, double initSize, Uint32 initThinkingTime, std::array<bool, 2> initIsAI)
+	: Game(initPosition, initSize, initThinkingTime, initIsAI), mapSize{0}, inputPositions()
 {
 	Init();
 }
@@ -95,50 +95,26 @@ void HexagonGame::Update()
 		//std::cout << "AI turn\n";
 		
 		//std::cout << "Possible moves " << moves.size() << '\n';
-		auto move = AI::AlphaBetaPruning(this, 1, INT_MIN, INT_MAX, currentPlayerID == 0, nullptr);
-		std::cout << "Best move " << move.first << "\n";
-		//ChangePlayer();
-		move.second->MakeAMove(this);
+		int level = 1;
+		Uint32 startTime = SDL_GetTicks();
 		
-		/*auto moves = GenerateMoves();
-		if(moves.size() > 0)
+		std::pair<int, std::shared_ptr<Move>> bestMove(0, nullptr);
+		do
 		{
-			if(currentPlayerID == 1)
-			{
-				int maxEvaluation = INT_MAX;
-				std::shared_ptr<Move> bestMove;
-				for(auto& move : moves)
-				{
-					std::shared_ptr<Game> clone(Clone());
-					move->MakeAMove(clone.get());
-					if(clone->EvaluateGame() < maxEvaluation)
-					{
-						maxEvaluation = clone->EvaluateGame() ;
-						bestMove = move;
-					}
-				}
-				std::cout << "Best move " << maxEvaluation << "\n";
-				bestMove->MakeAMove(this);
-			}
-			else
-			{
-				int maxEvaluation = INT_MIN;
-				std::shared_ptr<Move> bestMove;
-				for(auto& move : moves)
-				{
-					std::shared_ptr<Game> clone(Clone());
-					move->MakeAMove(clone.get());
-					if(clone->EvaluateGame() > maxEvaluation)
-					{
-						maxEvaluation = clone->EvaluateGame() ;
-						bestMove = move;
-					}
-				}
-				std::cout << "Best move " << maxEvaluation << "\n";
-				bestMove->MakeAMove(this);
-			}
-		}*/
-		SDL_Delay(100);
+			bestMove = AI::AlphaBetaPruning(this, level, INT_MIN, INT_MAX, currentPlayerID == 0, nullptr);
+			std::cout << "Best move " << bestMove.first << "\n";
+			
+			++level;
+			if( (SDL_GetTicks() - startTime) / static_cast<double>(thinkingTime) > 0.5)
+				break;
+		}
+		while(SDL_GetTicks() - startTime < thinkingTime);
+
+		if(bestMove.second != nullptr)
+			bestMove.second->MakeAMove(this);
+		//else
+		//	ChangePlayer();
+		
 	}
 }
 

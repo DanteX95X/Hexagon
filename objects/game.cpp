@@ -1,8 +1,8 @@
 #include "game.h"
 #include "../utilities/hex.h"
 
-Game::Game(Vector2 initPosition, double initSize, std::array<bool, 2> initIsAI)
-	: Actor(initPosition, Vector2(0, 0)), position{initPosition}, size{initSize}, currentPlayerID{0}, score({0,0}), isAI(initIsAI)
+Game::Game(Vector2 initPosition, double initSize, Uint32 initThinkingTime, std::array<bool, 2> initIsAI)
+	: Actor(initPosition, Vector2(0, 0)), position{initPosition}, size{initSize}, currentPlayerID{0}, score({0,0}), isAI(initIsAI), thinkingTime{initThinkingTime}
 {
 }
 

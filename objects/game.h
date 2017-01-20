@@ -22,7 +22,7 @@ class Move;
 class Game: public Actor
 {
 public:
-	Game(Vector2 initPosition, double size, std::array<bool, 2> initIsAI);
+	Game(Vector2 initPosition, double size, Uint32 initThinkingTime, std::array<bool, 2> initIsAI);
 	Game(const Game& another);
 	virtual ~Game();
 	
@@ -49,6 +49,8 @@ protected:
 	int currentPlayerID;
 	std::array<int, 2> score;
 	std::array<bool, 2> isAI;
+	
+	Uint32 thinkingTime;
 };
 
 #endif //GAME_H
