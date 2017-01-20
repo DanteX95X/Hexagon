@@ -4,6 +4,7 @@
 #include <string>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include "../objects/prop.h"
 
 class Window
@@ -30,6 +31,7 @@ private:
 
 	void InitializeSDL();
 	void InitializeIMG();
+	void InitializeTTF();
 	void CreateWindow(unsigned int width, unsigned int height, std::string title, Uint32 flags);
 	void CreateRenderer();
 };

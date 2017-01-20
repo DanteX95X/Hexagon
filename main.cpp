@@ -10,6 +10,7 @@
 #include "min_max/vertex.h"
 #include <queue>
 #include "min_max/ai.h"
+#include "objects/text_field.h"
 
 int main(int argc, char** argv)
 {
@@ -18,7 +19,7 @@ int main(int argc, char** argv)
 	SDL_Event event;
 	Window window;
 
-	HexagonGame game(Vector2 (300,200), 50);
+	
 
 	/*int childQuantity, value;
 	std::cin >> childQuantity >> value;
@@ -38,8 +39,36 @@ int main(int argc, char** argv)
 	}
 
 	delete root;*/
-
+	TextField textfield({0,0}, {100,50});
+	textfield.LoadFont();
+	textfield.LoadFromRenderedText(window.GetRenderer());
 	
+	
+	while( !isDone && textfield.IsSet())
+	{
+
+		while(SDL_PollEvent(&event))
+		{
+			if(event.type == SDL_QUIT)
+			{
+				isDone = true;
+			}
+			//game.HandleEvents(event);
+			textfield.HandleEvents(event);
+		}
+
+		//Timer::Instance().Update();
+		//game.Update();
+
+		SDL_RenderClear(window.GetRenderer());
+		
+		//game.Render(window.GetRenderer());
+		textfield.Render(window.GetRenderer());
+
+		SDL_RenderPresent(window.GetRenderer());
+	}
+	
+	HexagonGame game(Vector2 (300,200), 50);
 	while( !isDone)
 	{
 
@@ -50,13 +79,16 @@ int main(int argc, char** argv)
 				isDone = true;
 			}
 			game.HandleEvents(event);
+			//textfield.HandleEvents(event);
 		}
 
 		Timer::Instance().Update();
 		game.Update();
 
 		SDL_RenderClear(window.GetRenderer());
+		
 		game.Render(window.GetRenderer());
+		textfield.Render(window.GetRenderer());
 
 		SDL_RenderPresent(window.GetRenderer());
 	}
