@@ -2,12 +2,30 @@
 #include "../utilities/hex.h"
 #include "../utilities/hexagon_move.h"
 #include <algorithm>
+#include <memory>
+#include <climits>
+#include "../min_max/ai.h"
 
-HexagonGame::HexagonGame(Vector2 initPosition, double initSize)
-	: Game(initPosition, initSize), mapSize{0}, inputPositions()
+HexagonGame::HexagonGame(Vector2 initPosition, double initSize, Uint32 initThinkingTime, std::array<bool, 2> initIsAI)
+	: Game(initPosition, initSize, initThinkingTime, initIsAI), mapSize{0}, inputPositions()
 {
 	Init();
-};
+}
+
+HexagonGame::HexagonGame(const HexagonGame& another)
+	: Game(another)
+{
+	for(auto& field : another.fieldsMap)
+	{
+		Field* newField = new Field(*field.second);
+		newField->SetGame(this);
+		fieldsMap[field.first] = newField;
+	}
+	mapSize = another.mapSize;
+	neighbourhood = another.neighbourhood;
+	inputPositions = another.inputPositions;
+}
+
 
 HexagonGame::~HexagonGame()
 {
@@ -54,16 +72,10 @@ void HexagonGame::Init()
 	std::cout << "MapSize = " << mapSize << '\n';
 	SetUpNeighbours();
 	
-	for(auto& ufo : neighbourhood)
+	for(auto& field : fieldsMap)
 	{
-		std::cout << ufo.first;
-		std::cout << "\t";
-		for(Vector2 porno : ufo.second)
-		{
-			std::cout << porno;
-			std::cout << " ";
-		}
-		std::cout << "\n";
+		if(field.second->GetOwner() != Owner::NONE)
+			++score[static_cast<int>(field.second->GetOwner())];
 	}
 }
 
@@ -78,38 +90,37 @@ void HexagonGame::Render(SDL_Renderer* renderer)
 
 void HexagonGame::Update()
 {
-	if(currentPlayerID == 1)
+	if( isAI[currentPlayerID] )
 	{
-		std::map<Vector2, HexagonMove> moves;
-		for(auto& field : fieldsMap)
+		//std::cout << "AI turn\n";
+		
+		//std::cout << "Possible moves " << moves.size() << '\n';
+		int level = 1;
+		Uint32 startTime = SDL_GetTicks();
+		
+		std::pair<int, std::shared_ptr<Move>> bestMove(0, nullptr);
+		do
 		{
-			if( field.second->GetOwner() == Owner::OPPONENT)
-			{
-				for(Vector2 neighbourPosition : neighbourhood[field.first])
-				{
-					Field* neighbour = fieldsMap[neighbourPosition];
-					if(neighbour->GetOwner() == Owner::NONE)
-					{
-						moves.insert(std::make_pair(neighbourPosition, HexagonMove(field.first, neighbourPosition)));
-						for(Vector2 furtherNeighbourPosition : neighbourhood[neighbourPosition])
-						{
-							Field* furtherNeighbour = fieldsMap[furtherNeighbourPosition];
-							if(furtherNeighbour->GetOwner() == Owner::NONE)
-								moves.insert(std::make_pair(furtherNeighbourPosition, HexagonMove(field.first, furtherNeighbourPosition)));
-						}
-					}
-				}
-			}
+			bestMove = AI::AlphaBetaPruning(this, level, INT_MIN, INT_MAX, currentPlayerID == 0, nullptr);
+			std::cout << "Best move " << bestMove.first << "\n";
+			
+			++level;
+			if( (SDL_GetTicks() - startTime) / static_cast<double>(thinkingTime) > 0.5)
+				break;
 		}
-		std::cout << "Possible moves " << moves.size() << '\n';
-		if(moves.size() > 0)
-			moves.begin()->second.MakeAMove(this);
+		while(SDL_GetTicks() - startTime < thinkingTime);
+
+		if(bestMove.second != nullptr)
+			bestMove.second->MakeAMove(this);
+		//else
+		//	ChangePlayer();
+		
 	}
 }
 
 void HexagonGame::HandleEvents(SDL_Event& event)
 {
-	if(currentPlayerID == 0)
+	if( !isAI[currentPlayerID] )
 	{
 		for( auto& field : fieldsMap )
 		{
@@ -150,13 +161,53 @@ void HexagonGame::SetUpNeighbours()
 
 Owner HexagonGame::GameOver()
 {
-	std::cout << "Checking if someone won\n";
+	//std::cout << "Checking if someone won\n";
 	if( score[1]  == 0 || (score[0] + score[1] ==  mapSize && score[0] > score[1]) )
 		return Owner::PLAYER;
 	else if( score[0] == 0 || (score[0] + score[1] == mapSize && score[0] < score[1]) )
 		return Owner::OPPONENT;
+		
+	auto moves = GenerateMoves();
+	if(moves.size() == 0)
+		return static_cast<Owner>(1 - currentPlayerID);
 	
 	return Owner::NONE;
+}
+
+std::vector< std::shared_ptr<Move>> HexagonGame::GenerateMoves()
+{
+	std::vector<std::shared_ptr<Move> > moves;
+	for(auto& field : fieldsMap)
+	{
+		if( field.second->GetOwner() == static_cast<Owner>(currentPlayerID))
+		{
+			for(Vector2 neighbourPosition : neighbourhood[field.first])
+			{
+				Field* neighbour = fieldsMap[neighbourPosition];
+				if(neighbour->GetOwner() == Owner::NONE)
+				{
+					moves.push_back(std::shared_ptr<Move> (new HexagonMove(field.first, neighbourPosition)) );
+					for(Vector2 furtherNeighbourPosition : neighbourhood[neighbourPosition])
+					{
+						Field* furtherNeighbour = fieldsMap[furtherNeighbourPosition];
+						if(furtherNeighbour->GetOwner() == Owner::NONE)
+							moves.push_back(std::shared_ptr<Move> (new HexagonMove(field.first, furtherNeighbourPosition)) );
+					}
+				}
+			}
+		}
+	}
+	return moves;
+}
+
+std::shared_ptr<Game> HexagonGame::Clone()
+{
+	return std::shared_ptr<Game>(new HexagonGame(*this));
+}
+
+int HexagonGame::EvaluateGame()
+{
+	return score[0] - score[1];
 }
 
 std::map<Vector2, Field*>& HexagonGame::GetFieldsMap() { return fieldsMap; }

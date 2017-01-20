@@ -12,6 +12,8 @@ class Field : public Actor
 {
 public:
 	Field(HexagonGame* initGame, Vector2 initAxial, Vector2 position, float size, std::string texturePath, Owner initOwner = Owner::NONE);
+	Field(const Field& another) = default;
+	~Field() = default;
 	
 	void HandleEvents(SDL_Event& event) override;
 	void Update() override;
@@ -21,6 +23,8 @@ public:
 	void SetOwner(Owner newOwner);
 	
 	Vector2 GetAxial();
+	
+	void SetGame(HexagonGame* newGame);
 	
 private:
 	Vector2 axial;

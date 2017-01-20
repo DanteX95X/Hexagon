@@ -9,7 +9,8 @@ class Field;
 class HexagonGame : public Game
 {
 	public:
-	HexagonGame(Vector2 initPosition, double size);
+	HexagonGame(Vector2 initPosition, double size, Uint32 initThinkingTime, std::array<bool, 2> initIsAI = {false, true});
+	HexagonGame(const HexagonGame& another);
 	~HexagonGame();
 	
 	void Init();
@@ -19,8 +20,11 @@ class HexagonGame : public Game
 	
 	virtual void Update() override;
 	virtual void HandleEvents(SDL_Event& event)  override;
-	
 	virtual Owner GameOver();
+	virtual std::vector<std::shared_ptr<Move>> GenerateMoves() override;
+	
+	std::shared_ptr<Game> Clone() override;
+	int EvaluateGame() override;
 	
 	void ProcessInput(Vector2 position);
 	

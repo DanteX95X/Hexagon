@@ -5,6 +5,9 @@
 #include <iostream>
 #include <array>
 #include "actor.h"
+#include <memory>
+#include <vector>
+#include "../utilities/move.h"
 
 
 enum class Owner
@@ -14,39 +17,40 @@ enum class Owner
 	OPPONENT = 1,
 };
 
+class Move;
+
 class Game: public Actor
 {
 public:
-	Game(Vector2 initPosition, double size);
-	~Game();
+	Game(Vector2 initPosition, double size, Uint32 initThinkingTime, std::array<bool, 2> initIsAI);
+	Game(const Game& another);
+	virtual ~Game();
 	
 	virtual void Init() = 0;
-	//void SetUpNeighbours();
-	
+
 	virtual void Render(SDL_Renderer* renderer) = 0;
 	
 	virtual void Update() = 0;
 	virtual void HandleEvents(SDL_Event& event)  = 0;
 	virtual Owner GameOver() = 0;
+	virtual std::vector<std::shared_ptr<Move>> GenerateMoves() = 0;
+	virtual std::shared_ptr<Game> Clone() = 0;
+	virtual int EvaluateGame() = 0;
 	
 	void ChangePlayer();
 	void UpdatePlayerScore(Owner player, int scoreChange);
 	
 	int GetCurrentPlayerID();
-	
-	//void ProcessInput(Vector2 position);
 
 protected:
-	//void TakePositionOver(Vector2 position, Owner owner);
-
-	//std::map<Vector2, Field*> fieldsMap;
 	Vector2 position;
 	double size;
 	
-	//std::vector<Vector2> inputPositions;
 	int currentPlayerID;
-	//std::map<Vector2, std::vector<Vector2>> neighbourhood;
 	std::array<int, 2> score;
+	std::array<bool, 2> isAI;
+	
+	Uint32 thinkingTime;
 };
 
 #endif //GAME_H

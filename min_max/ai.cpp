@@ -1,42 +1,62 @@
 #include "ai.h"
 
-int AI::AlphaBetaPruning(Vertex* vertex, int depth, int alpha, int beta, bool isMaximizing)
+std::pair<int, std::shared_ptr<Move>> AI::AlphaBetaPruning(Game* state, int depth, int alpha, int beta, bool isMaximizing, std::shared_ptr<Move> lastMove)
 {
-	if(depth == 0 || vertex->GetChildren().size() == 0 )
-		return vertex->GetValue();
+	//std::cout << "Moves " << state->GenerateMoves().size() << "\n";
+	if(depth == 0 || state->GameOver() != Owner::NONE )
+		return {state->EvaluateGame(), lastMove};
 	
 	int value;
+	std::shared_ptr<Move> bestMove;
 	if( isMaximizing )
 	{
 		value = INT_MIN;
-		for( Vertex*& child : vertex->GetChildren() )
+		for( auto move : state->GenerateMoves() )
 		{
-			alpha = std::max(std::max(value, AlphaBetaPruning(child, depth-1, alpha, beta, false)), alpha);
+			std::shared_ptr<Game> child(state->Clone());
+			move->MakeAMove(child.get());
+			std::pair<int, std::shared_ptr<Move>> nextLevelValue = AlphaBetaPruning(child.get(), depth-1, alpha, beta, false, move);
+			
+			if(nextLevelValue.first > value)
+			{
+				value = nextLevelValue.first;
+				bestMove = move;
+			}
+			alpha = std::max(alpha, value);
 			if( beta <= alpha )
 			{
-				value = beta;
 				break;
 			}
-			else
-				value = alpha;
+			//std::cout << "Maximizer value " << value << "\n";
+			
 		}
+		return {value, bestMove};
 	}
 	else
 	{
 		value = INT_MAX;
-		for( Vertex*& child : vertex->GetChildren() )
+		auto moves = state->GenerateMoves();
+		//std::cout << "Size " << moves.size() << "\n";
+		for( auto move : moves )
 		{
-			//value = ;
-			beta = std::min(std::min(value, AlphaBetaPruning(child, depth - 1, alpha, beta, true)), beta);
+			std::shared_ptr<Game> child(state->Clone());
+			move->MakeAMove(child.get());
+			std::pair<int, std::shared_ptr<Move>> nextLevelValue = AlphaBetaPruning(child.get(), depth - 1, alpha, beta, true, move);
+			
+			if(nextLevelValue.first < value)
+			{
+				value = nextLevelValue.first;
+				bestMove = move;
+			}
+			beta = std::min(beta, value);
 			if( beta <= alpha )
 			{
-				value = alpha;
 				break;
 			}
-			else
-				value = beta;
+			//std::cout << "Minimizer value " << value << "\n";
+			
 		}
+		return {value, bestMove};
 	}
-	vertex->SetValue(value);
-	return value;
+	return {value, bestMove};
 }

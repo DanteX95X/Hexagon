@@ -3,9 +3,7 @@
 #include "objects/prop.h"
 #include "objects/field.h"
 #include "utilities/timer.h"
-
 #include "objects/hexagon_game.h"
-
 #include "objects/actor.h"
 #include "min_max/vertex.h"
 #include <queue>
@@ -20,6 +18,9 @@ int main(int argc, char** argv)
 	Window window;
 
 	
+	//HexagonGame ufo(Vector2 (300,200), 50, {false, true});
+	//std::shared_ptr<Game> game = ufo.Clone();
+
 
 	/*int childQuantity, value;
 	std::cin >> childQuantity >> value;
@@ -68,7 +69,8 @@ int main(int argc, char** argv)
 		SDL_RenderPresent(window.GetRenderer());
 	}
 	
-	HexagonGame game(Vector2 (300,200), 50);
+
+	HexagonGame game(Vector2 (320,240), 50, textfield.GetStringAsInt(), {true, true});
 	while( !isDone)
 	{
 
