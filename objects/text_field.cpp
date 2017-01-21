@@ -1,5 +1,6 @@
 #include "text_field.h"
 #include <assert.h>
+#include <sstream>
 
 TextField::TextField(Vector2 initPosition, Vector2 initSize)
 :Prop(initPosition, initSize)
@@ -70,16 +71,20 @@ void TextField::HandleEvents(SDL_Event &e)
 	else if(isActive && e.type == SDL_KEYDOWN)
 	{
 		//Handle backspace
-		if( e.key.keysym.sym == SDLK_RETURN && text.length() > 2 )
+		if( e.key.keysym.sym == SDLK_RETURN && text[0] != ' ' )
 		{
 			isRender = false;
 			isActive = false;
 			clicable = false;
 		}
-		if( e.key.keysym.sym == SDLK_BACKSPACE && text.length() > 1 )
+		if( e.key.keysym.sym == SDLK_BACKSPACE && text.length() > 0 )
 		{
-			//lop off character
 			text.pop_back();
+			if(text.size() == 0)
+			{
+				printf("0\n");
+				text.push_back(' ');
+			}
 			isRender = true;
 		}
 		//Handle copy
@@ -105,7 +110,11 @@ void TextField::HandleEvents(SDL_Event &e)
 			{
 				printf("key\n");
 				//Append character
-				text.push_back(*e.text.text);
+				if(text.size() == 1 && text[0] == ' ')
+				{
+					text[0] = *e.text.text;
+				}
+				else text.push_back(*e.text.text);
 				isRender = true;
 			}
 		}
@@ -128,7 +137,9 @@ bool TextField::IsMouseInside()
 
 int TextField::GetStringAsInt()
 {
-	return std::stoi(text);
+	int result;
+	std::stringstream(text) >> result;
+	return result;
 }
 
 bool TextField::IsSet()
