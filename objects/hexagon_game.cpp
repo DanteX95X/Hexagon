@@ -90,7 +90,7 @@ void HexagonGame::Render(SDL_Renderer* renderer)
 
 void HexagonGame::Update()
 {
-	if( isAI[currentPlayerID] )
+	if( isAI[currentPlayerID] && GameOver() == Owner::NONE)
 	{
 		//std::cout << "AI turn\n";
 		
