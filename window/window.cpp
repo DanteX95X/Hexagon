@@ -28,7 +28,6 @@ void Window::InitializeSDL()
 
 void Window::InitializeTTF()
 {
-	//assert(TTF_Init() != -1);
 	TTF_Init();
 }
 
