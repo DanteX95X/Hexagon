@@ -69,8 +69,8 @@ int main(int argc, char** argv)
 	}
 	
 
-	HexagonGame game(Vector2 (320,240), 50, textfield.GetStringAsInt(), {false, true});
-	while( !isDone)
+	HexagonGame game(Vector2 (320,240), 50, textfield.GetStringAsInt(), {true, true});
+	while( !isDone && game.GameOver() == Owner::NONE)
 	{
 
 		while(SDL_PollEvent(&event))
@@ -93,7 +93,8 @@ int main(int argc, char** argv)
 
 		SDL_RenderPresent(window.GetRenderer());
 	}
-
+	
+	std::cout << "Winner: " << static_cast<int>(game.GameOver()) << "\n";
 
 	return 0;
 }

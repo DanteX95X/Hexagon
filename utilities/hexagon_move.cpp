@@ -69,7 +69,7 @@ void HexagonMove::TakePositionOver(HexagonGame* game, Vector2 position, Owner ow
 			
 	
 	
-	Owner winner = game->GameOver();
-	if( winner != Owner::NONE)
-		std::cout << "Game Over! Winner: " << static_cast<int>(winner) << "\n";
+	//Owner winner = game->GameOver();
+	//if( winner != Owner::NONE)
+	//	std::cout << "Game Over! Winner: " << static_cast<int>(winner) << "\n";
 }
