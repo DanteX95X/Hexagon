@@ -61,7 +61,6 @@ void TextField::HandleEvents(SDL_Event &e)
 	{
 		if(clicable && IsMouseInside())
 		{
-			printf("clicked!\n");
 			isActive = true;
 			isRender = true;
 			text = " ";
@@ -82,7 +81,6 @@ void TextField::HandleEvents(SDL_Event &e)
 			text.pop_back();
 			if(text.size() == 0)
 			{
-				printf("0\n");
 				text.push_back(' ');
 			}
 			isRender = true;
@@ -108,7 +106,6 @@ void TextField::HandleEvents(SDL_Event &e)
 		{
 			if(static_cast<int>(*e.text.text) >= 48 &&  static_cast<int>(*e.text.text) <= 57)
 			{
-				printf("key\n");
 				//Append character
 				if(text.size() == 1 && text[0] == ' ')
 				{

@@ -99,7 +99,6 @@ void HexagonGame::Update()
 		do
 		{
 			bestMove = AI::AlphaBetaPruning(this, level, INT_MIN, INT_MAX, currentPlayerID == 0, nullptr);
-			std::cout << "Best move " << bestMove.first << "\n";
 			
 			++level;
 			if( (SDL_GetTicks() - startTime) / static_cast<double>(thinkingTime) > 0.5)
