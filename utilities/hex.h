@@ -6,8 +6,7 @@
 
 namespace Hex
 {
-	extern std::vector<Vector2> displacements;// = { Vector2(1, 0), Vector2(-1, 0), Vector2(0, 1), Vector2(0, -1), Vector2(1, -1), Vector2(-1, 1) };
-	
+	extern std::vector<Vector2> displacements;
 	unsigned int Distance(const Vector2& first, const Vector2& second);
 }
 

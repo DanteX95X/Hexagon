@@ -92,9 +92,6 @@ void HexagonGame::Update()
 {
 	if( isAI[currentPlayerID] && GameOver() == Owner::NONE)
 	{
-		//std::cout << "AI turn\n";
-		
-		//std::cout << "Possible moves " << moves.size() << '\n';
 		int level = 1;
 		Uint32 startTime = SDL_GetTicks();
 		
@@ -112,8 +109,6 @@ void HexagonGame::Update()
 
 		if(bestMove.second != nullptr)
 			bestMove.second->MakeAMove(this);
-		//else
-		//	ChangePlayer();
 		
 	}
 }
@@ -161,7 +156,6 @@ void HexagonGame::SetUpNeighbours()
 
 Owner HexagonGame::GameOver()
 {
-	//std::cout << "Checking if someone won\n";
 	if( score[1]  == 0 || (score[0] + score[1] ==  mapSize && score[0] > score[1]) )
 		return Owner::PLAYER;
 	else if( score[0] == 0 || (score[0] + score[1] == mapSize && score[0] < score[1]) )

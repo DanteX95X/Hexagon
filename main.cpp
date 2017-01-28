@@ -16,29 +16,6 @@ int main(int argc, char** argv)
 	SDL_Event event;
 	Window window;
 
-	
-	//HexagonGame ufo(Vector2 (300,200), 50, {false, true});
-	//std::shared_ptr<Game> game = ufo.Clone();
-
-
-	/*int childQuantity, value;
-	std::cin >> childQuantity >> value;
-	Vertex* root = Vertex::BuildTree(0, childQuantity, value);
-	AI::AlphaBetaPruning(root, 100, INT_MIN, INT_MAX, true);
-
-	std::cout << "\n";
-	std::queue<Vertex*> queue;
-	queue.push(root);
-	while(queue.size() > 0)
-	{
-		std::cout <<queue.front()->GetDepth() << " " << queue.front()->GetValue() << " " << queue.front()->GetChildren().size() << "\n";
-		for(Vertex*& vertex : queue.front()->GetChildren())
-			queue.push(vertex);
-
-		queue.pop();
-	}
-
-	delete root;*/
 	TextField textfield({0,0}, {100,50});
 	textfield.LoadFont();
 	textfield.LoadFromRenderedText(window.GetRenderer());
@@ -53,16 +30,11 @@ int main(int argc, char** argv)
 			{
 				isDone = true;
 			}
-			//game.HandleEvents(event);
 			textfield.HandleEvents(event);
 		}
 
-		//Timer::Instance().Update();
-		//game.Update();
-
 		SDL_RenderClear(window.GetRenderer());
-		
-		//game.Render(window.GetRenderer());
+
 		textfield.Render(window.GetRenderer());
 
 		SDL_RenderPresent(window.GetRenderer());
@@ -80,7 +52,6 @@ int main(int argc, char** argv)
 				isDone = true;
 			}
 			game.HandleEvents(event);
-			//textfield.HandleEvents(event);
 		}
 
 		Timer::Instance().Update();

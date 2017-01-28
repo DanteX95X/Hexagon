@@ -2,7 +2,6 @@
 
 std::pair<int, std::shared_ptr<Move>> AI::AlphaBetaPruning(Game* state, int depth, int alpha, int beta, bool isMaximizing, std::shared_ptr<Move> lastMove)
 {
-	//std::cout << "Moves " << state->GenerateMoves().size() << "\n";
 	if(depth == 0 || state->GameOver() != Owner::NONE )
 		return {state->EvaluateGame(), lastMove};
 	
@@ -27,7 +26,6 @@ std::pair<int, std::shared_ptr<Move>> AI::AlphaBetaPruning(Game* state, int dept
 			{
 				break;
 			}
-			//std::cout << "Maximizer value " << value << "\n";
 			
 		}
 		return {value, bestMove};
@@ -36,7 +34,6 @@ std::pair<int, std::shared_ptr<Move>> AI::AlphaBetaPruning(Game* state, int dept
 	{
 		value = INT_MAX;
 		auto moves = state->GenerateMoves();
-		//std::cout << "Size " << moves.size() << "\n";
 		for( auto move : moves )
 		{
 			std::shared_ptr<Game> child(state->Clone());
@@ -53,7 +50,6 @@ std::pair<int, std::shared_ptr<Move>> AI::AlphaBetaPruning(Game* state, int dept
 			{
 				break;
 			}
-			//std::cout << "Minimizer value " << value << "\n";
 			
 		}
 		return {value, bestMove};
