@@ -180,12 +180,13 @@ std::vector< std::shared_ptr<Move>> HexagonGame::GenerateMoves()
 				if(neighbour->GetOwner() == Owner::NONE)
 				{
 					moves.insert({neighbourPosition, std::shared_ptr<Move> (new HexagonMove(field.first, neighbourPosition))} );
-					for(Vector2 furtherNeighbourPosition : neighbourhood[neighbourPosition])
-					{
-						Field* furtherNeighbour = fieldsMap[furtherNeighbourPosition];
-						if(furtherNeighbour->GetOwner() == Owner::NONE)
-							moves.insert({furtherNeighbourPosition, std::shared_ptr<Move> (new HexagonMove(field.first, furtherNeighbourPosition))} );
-					}
+				}
+
+				for(Vector2 furtherNeighbourPosition : neighbourhood[neighbourPosition])
+				{
+					Field* furtherNeighbour = fieldsMap[furtherNeighbourPosition];
+					if(furtherNeighbour->GetOwner() == Owner::NONE)
+						moves.insert({furtherNeighbourPosition, std::shared_ptr<Move> (new HexagonMove(field.first, furtherNeighbourPosition))} );
 				}
 			}
 		}
