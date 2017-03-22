@@ -7,7 +7,7 @@
 #include "../min_max/ai.h"
 
 HexagonGame::HexagonGame(Vector2 initPosition, double initSize, Uint32 initThinkingTime, std::array<bool, 2> initIsAI)
-	: Game(initPosition, initSize, initThinkingTime, initIsAI), mapSize{0}, inputPositions()
+	: Game(initPosition, initSize, initThinkingTime, initIsAI), mapSize{0}, inputPositions(), shouldWaitFrame{false}
 {
 	Init();
 }
@@ -90,7 +90,7 @@ void HexagonGame::Render(SDL_Renderer* renderer)
 
 void HexagonGame::Update()
 {
-	if( isAI[currentPlayerID] && GameOver() == Owner::NONE)
+	if( isAI[currentPlayerID] && GameOver() == Owner::NONE && !shouldWaitFrame)
 	{
 		int level = 1;
 		Uint32 startTime = SDL_GetTicks();
@@ -115,6 +115,8 @@ void HexagonGame::Update()
 			bestMove.second->MakeAMove(this);
 		
 	}
+	
+	shouldWaitFrame = false;
 }
 
 void HexagonGame::HandleEvents(SDL_Event& event)
@@ -138,7 +140,10 @@ void HexagonGame::ProcessInput(Vector2 position)
 		bool isMoveValid = move.MakeAMove(this);
 		
 		if(isMoveValid)
+		{
 			inputPositions.clear();
+			shouldWaitFrame = true;
+		}
 		else
 			inputPositions.erase(inputPositions.begin());
 

@@ -41,7 +41,7 @@ int main(int argc, char** argv)
 	}
 	
 
-	HexagonGame game(Vector2 (320,240), 50, textfield.GetStringAsInt(), {true, true});
+	HexagonGame game(Vector2 (320,240), 50, textfield.GetStringAsInt(), {false, true});
 	while( !isDone && game.GameOver() == Owner::NONE)
 	{
 

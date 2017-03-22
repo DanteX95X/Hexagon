@@ -37,6 +37,7 @@ private:
 	
 	std::vector<Vector2> inputPositions;
 	std::map<Vector2, std::vector<Vector2>> neighbourhood;
+	bool shouldWaitFrame;
 };
 
 #endif //HEXAGON_GAME_H
