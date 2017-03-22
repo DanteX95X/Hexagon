@@ -19,7 +19,7 @@ public:
 	bool LoadFont();
 	
 	std::string GetText();
-	void SetText();
+	void SetText(std::string newText);
 	void SetColor(SDL_Color textColor);
 	
 	void HandleEvents(SDL_Event& event);

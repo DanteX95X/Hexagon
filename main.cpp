@@ -67,6 +67,11 @@ int main(int argc, char** argv)
 	
 	std::cout << "Winner: " << static_cast<int>(game.GameOver()) << "\n";
 	
+	if(game.GameOver() == Owner::PLAYER)
+		textfield.SetText("Winner: Blue");
+	else
+		textfield.SetText("Winner: Red");
+		
 	while(!isDone)
 	{
 		while(SDL_PollEvent(&event))
@@ -76,6 +81,10 @@ int main(int argc, char** argv)
 				isDone = true;
 			}
 		}
+		
+		SDL_RenderClear(window.GetRenderer());
+		textfield.Render(window.GetRenderer());
+		SDL_RenderPresent(window.GetRenderer());
 	}
 
 	return 0;

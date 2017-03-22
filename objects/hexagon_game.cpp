@@ -98,11 +98,16 @@ void HexagonGame::Update()
 		std::pair<int, std::shared_ptr<Move>> bestMove(0, nullptr);
 		do
 		{
-			bestMove = AI::AlphaBetaPruning(this, level, INT_MIN, INT_MAX, currentPlayerID == 0, nullptr);
+			try
+			{
+				bestMove = AI::AlphaBetaPruning(this, level, INT_MIN, INT_MAX, currentPlayerID == 0, nullptr, thinkingTime, startTime);
+			}
+			catch(std::exception exception)
+			{
+				std::cout << "Time spent thinking " << SDL_GetTicks() - startTime << "\nDepth " << level << "\n";
+			}
 			
 			++level;
-			if( (SDL_GetTicks() - startTime) / static_cast<double>(thinkingTime) > 0.5)
-				break;
 		}
 		while(SDL_GetTicks() - startTime < thinkingTime);
 

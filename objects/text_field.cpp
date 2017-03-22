@@ -143,3 +143,5 @@ bool TextField::IsSet()
 {
 	return clicable;
 }
+
+void TextField::SetText(std::string newText) { text = newText; isRender = true; }
