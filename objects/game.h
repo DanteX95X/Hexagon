@@ -15,6 +15,7 @@ enum class Owner
 	NONE = -1,
 	PLAYER = 0,
 	OPPONENT = 1,
+	DRAW = 2,
 };
 
 class Move;

@@ -165,6 +165,8 @@ void HexagonGame::SetUpNeighbours()
 
 Owner HexagonGame::GameOver()
 {
+	if( score[0] + score[1] == mapSize && score[0] == score[1])
+		return Owner::DRAW;
 	if( score[1]  == 0 || (score[0] + score[1] ==  mapSize && score[0] > score[1]) )
 		return Owner::PLAYER;
 	else if( score[0] == 0 || (score[0] + score[1] == mapSize && score[0] < score[1]) )

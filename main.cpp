@@ -19,6 +19,7 @@ int main(int argc, char** argv)
 	TextField textfield({0,0}, {100,50});
 	textfield.LoadFont();
 	textfield.LoadFromRenderedText(window.GetRenderer());
+	textfield.SetText("Enter Time");
 	
 	
 	while( !isDone && textfield.IsSet())
@@ -42,9 +43,16 @@ int main(int argc, char** argv)
 	
 
 	HexagonGame game(Vector2 (320,240), 50, textfield.GetStringAsInt(), {false, true});
-	while( !isDone && game.GameOver() == Owner::NONE)
+	while( !isDone )
 	{
-
+		Owner winner = game.GameOver();
+		if( winner == Owner::PLAYER )
+			textfield.SetText("Winner: Blue");
+		else if( winner == Owner::OPPONENT )
+			textfield.SetText("Winner: Red");
+		else if( winner == Owner::DRAW )
+			textfield.SetText("Draw");
+		
 		while(SDL_PollEvent(&event))
 		{
 			if(event.type == SDL_QUIT)
@@ -62,28 +70,6 @@ int main(int argc, char** argv)
 		game.Render(window.GetRenderer());
 		textfield.Render(window.GetRenderer());
 
-		SDL_RenderPresent(window.GetRenderer());
-	}
-	
-	std::cout << "Winner: " << static_cast<int>(game.GameOver()) << "\n";
-	
-	if(game.GameOver() == Owner::PLAYER)
-		textfield.SetText("Winner: Blue");
-	else
-		textfield.SetText("Winner: Red");
-		
-	while(!isDone)
-	{
-		while(SDL_PollEvent(&event))
-		{
-			if(event.type == SDL_QUIT)
-			{
-				isDone = true;
-			}
-		}
-		
-		SDL_RenderClear(window.GetRenderer());
-		textfield.Render(window.GetRenderer());
 		SDL_RenderPresent(window.GetRenderer());
 	}
 
